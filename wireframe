@@ -1,1 +1,189 @@
-<mxfile host="app.diagrams.net" modified="2021-10-31T00:36:36.199Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" version="15.6.2" etag="1nvxtj0Zxatm4WLQPHRX" type="github"><diagram id="yhuCRo8DxKkSJtnYbrbt">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-10-31T01:03:19.620Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="eknFBhbgQEFbPl2IeJp2" version="15.6.2" type="github">
+  <diagram id="yhuCRo8DxKkSJtnYbrbt" name="Page-1">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="85wloVwjI5tyBrj21yfF-18" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.rect;fillColor2=none;strokeWidth=1;size=20;indent=5;" vertex="1" parent="1">
+          <mxGeometry x="160" y="290" width="480" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-19" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.rect;fillColor2=none;strokeWidth=1;size=20;indent=5;" vertex="1" parent="1">
+          <mxGeometry x="160" y="290" width="480" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-20" value="Logo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="170" y="295" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-21" value="三" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="580" y="295" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-22" value="Google Map" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="380" width="440" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-25" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="910" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-26" value="電信柱" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="180" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-27" value="電柱（添架）" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-28" value="局舎" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-29" value="その他" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-31" value="写真選択" style="fillColor=#FEFEFE;strokeColor=#AAAAAA;fontSize=14;gradientColor=#F0F0F0;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="1040" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-32" value="No file chosen" style="fillColor=none;strokeColor=none;align=left;fontSize=14;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="277.5" y="1040" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-33" value="支線" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="192.5" y="940" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-34" value="ほげ支" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry width="200" height="30" relative="1" as="geometry">
+            <mxPoint x="193" y="960" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-49" value="番号" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="402.5" y="940" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-50" value="R4/16" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="402.5" y="960" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-51" value="備考" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="1005" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-52" value="ぽいぽい" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="222.5" y="1000" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-54" value="登録" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeColor=#33A64C;strokeWidth=1;fillColor=none;fontColor=#33A64C;whiteSpace=wrap;align=center;verticalAlign=middle;spacingLeft=0;fontStyle=0;fontSize=16;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1090" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-55" value="座標" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="875" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-56" value="xx°xx&#39;xx.x&quot;N" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="222.5" y="870" width="177.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-57" value="住所" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="835" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-58" value="ぽいぽい県" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="222.5" y="830" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-60" value="&lt;span style=&quot;font-family: &amp;#34;helvetica&amp;#34;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;#34;helvetica&amp;#34;&quot;&gt;yyy°yy&#39;yy.y&quot;E&lt;/span&gt;" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="413.75" y="870" width="177.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-61" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.rect;fillColor2=none;strokeWidth=1;size=20;indent=5;fillColor=#FFFFFF;align=center;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="340" width="440" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-63" value="メッセージ" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="345" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-77" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="910" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-78" value="電信柱" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="660" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-79" value="電柱（添架）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="770" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-80" value="局舎" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-81" value="その他" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-82" value="写真選択" style="fillColor=#FEFEFE;strokeColor=#AAAAAA;fontSize=14;gradientColor=#F0F0F0;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="1040" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-83" value="No file chosen" style="fillColor=none;strokeColor=none;align=left;fontSize=14;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="757.5" y="1040" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-84" value="支線" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="672.5" y="940" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-85" value="ほげ支" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="673" y="960" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-86" value="番号" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="882.5" y="940" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-87" value="R4/16" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="882.5" y="960" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-88" value="備考" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="1005" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-89" value="ぽいぽい" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="702.5" y="1000" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-103" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="725" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-104" value="電信柱" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="660" y="725" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-105" value="電柱（添架）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="770" y="725" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-106" value="局舎" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="880" y="725" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-107" value="その他" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="725" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-108" value="写真選択" style="fillColor=#FEFEFE;strokeColor=#AAAAAA;fontSize=14;gradientColor=#F0F0F0;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="855" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-109" value="No file chosen" style="fillColor=none;strokeColor=none;align=left;fontSize=14;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="757.5" y="855" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-110" value="ビル名" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="780" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-111" value="ほげビル" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="720" y="775" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-114" value="備考" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="820" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-115" value="ぽいぽい" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="702.5" y="815" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-116" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="540" width="440" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-117" value="電信柱" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="660" y="540" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-118" value="電柱（添架）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="770" y="540" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-119" value="局舎" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="880" y="540" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-120" value="その他" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="990" y="540" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-121" value="写真選択" style="fillColor=#FEFEFE;strokeColor=#AAAAAA;fontSize=14;gradientColor=#F0F0F0;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="670" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-122" value="No file chosen" style="fillColor=none;strokeColor=none;align=left;fontSize=14;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="757.5" y="670" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-127" value="備考" style="fillColor=none;strokeColor=none;align=left;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="585" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="85wloVwjI5tyBrj21yfF-128" value="ぽいぽい" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="1">
+          <mxGeometry x="702.5" y="580" width="380" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
