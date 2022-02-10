@@ -12,7 +12,7 @@
 <div id="map"></div>
 <p id="address">住所の読み込みに失敗しました</p>
 </body>
-<script src="{{asset('/js/index.js')}}"></script>
+<script src="{{asset('/js/googlemaps.js')}}"></script>
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{config('googlemap.api-key')}}&callback=initMap&v=weekly"
     async
