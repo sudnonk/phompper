@@ -23,30 +23,30 @@ declare var window: Window & typeof globalThis;
 function initMap(): void {
     //デフォルトでは東京駅を表示する
     const defPos: LatLng = new LatLng({lat: 35.681217751538604, lng: 139.76709999359113});
-    const mapDOM: HTMLElement|null = document.getElementById("map");
+    const mapDOM: HTMLElement | null = document.getElementById("map");
     if (mapDOM === null) {
         setMapStatus("エラーが発生しました。管理者に連絡してください。");
         return;
     }
+
+    geocoder = new Gcoder();
     map = new GMap(mapDOM, {
         center: defPos,
         zoom: 17,
     });
+
     const initialPos = getUserLocation(defPos);
     map.panTo(initialPos);
-    reMarker(initialPos, map);
-    map.addListener("click", function (mapMouseEvent:MapMouseEvent) {
+    map.addListener("click", function (mapMouseEvent: MapMouseEvent) {
         moveToPoint(mapMouseEvent);
     });
     map.addListener("center_changed", function () {
         console.log("center_changed");
     });
 
-    geocoder = new Gcoder();
+    reMarker(initialPos, map);
     console.log("Google Mapsを読み込みました。")
 }
-
-window.initMap = initMap;
 
 /**
  * クリックされた場所に地図の中心を移動する
@@ -54,7 +54,7 @@ window.initMap = initMap;
  */
 function moveToPoint(mapMouseEvent: MapMouseEvent): void {
     const latlng = mapMouseEvent.latLng;
-    if(latlng === null){
+    if (latlng === null) {
         return;
     }
     const pos = new LatLng(latlng);
@@ -91,6 +91,7 @@ function getUserLocation(defaultPosition: LatLng): LatLng {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
+        setMapStatus("現在値を取得しました");
     }
     const errorCallback = function () {
         setMapStatus("現在位置の取得に失敗しました。東京を表示します。");
@@ -145,9 +146,9 @@ function setMapStatus(str: string): void {
  *
  * @param str
  */
-function setAddress(str:string):void{
+function setAddress(str: string): void {
     const addrDOM = document.getElementById("address");
-    if(addrDOM === null){
+    if (addrDOM === null) {
         return;
     }
     addrDOM.innerText = str;
@@ -161,3 +162,5 @@ function gm_authFailure(): void {
 }
 
 window.gm_authFailure = gm_authFailure;
+
+initMap();
