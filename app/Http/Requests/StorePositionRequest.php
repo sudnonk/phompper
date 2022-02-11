@@ -2,8 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PositionLineRule;
+use App\Rules\PositionNameRule;
+use App\Rules\PositionNumberRule;
+use App\Rules\PositionTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * 地点新規作成時のフォーム入力データバリデーションルール
+ */
 class StorePositionRequest extends FormRequest
 {
     /**
@@ -11,9 +19,10 @@ class StorePositionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        //ログインしていればOK
+        return Auth::user() !== null;
     }
 
     /**
@@ -21,10 +30,35 @@ class StorePositionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'lat' => ['required', 'numeric', 'between:-90,90'],
+            'long' => ['required', 'numeric', 'between:-180,180'],
+            'type' => ['required', new PositionTypeRule()],
+            'line' => [
+                'nullable',
+                new PositionLineRule($this->request->get('type')),
+                'string',
+                'max:255',
+            ],
+            'number' => [
+                'nullable',
+                new PositionNumberRule($this->request->get('type')),
+                'string',
+                'max:255',
+            ],
+            'name' => [
+                'nullable',
+                new PositionNameRule($this->request->get('type')),
+                'string',
+                'max:255',
+            ],
+            'note' => [
+                'nullable',
+                'string',
+                'max:1024',
+            ],
         ];
     }
 }
