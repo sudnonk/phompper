@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Position;
 use App\Rules\PositionLineRule;
 use App\Rules\PositionNameRule;
 use App\Rules\PositionNumberRule;
@@ -60,5 +61,19 @@ class StorePositionRequest extends FormRequest
                 'max:1024',
             ],
         ];
+    }
+
+    /**
+     * バリデーション成功時に行う処理
+     *
+     * @return void
+     */
+    protected function passedValidation(): void
+    {
+        //経度と緯度をgeohashにする
+        $geohash = Position::toGeoHash($this->input('lat') + 0.00, $this->input('long') + 0.00);
+        $this->merge([
+            'geohash' => $geohash,
+        ]);
     }
 }
