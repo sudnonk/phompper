@@ -23,6 +23,7 @@ class PositionLineRule implements Rule
             case PositionTypes::search("電柱") === $this->position_type:
                 return is_string($value);
             default:
+                //ミドルウェアで空文字列はnullに変換されるので気にしなくて良い
                 return $value === null;
         }
     }
