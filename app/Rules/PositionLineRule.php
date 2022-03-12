@@ -11,8 +11,8 @@ class PositionLineRule implements Rule
 
     public function __construct(?string $position_type)
     {
-        assert(PositionTypes::isValidKey($position_type));
-        $this->position_type = $position_type;
+        assert(PositionTypes::isValid($position_type));
+        $this->position_type = PositionTypes::search($position_type);
     }
 
     public function passes($attribute, $value): bool

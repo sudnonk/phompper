@@ -9,7 +9,7 @@ class PositionTypeRule implements Rule
 {
     public function passes($attribute, $value): bool
     {
-        return PositionTypes::isValidKey($value);
+        return PositionTypes::isValid($value);
     }
 
     public function message(): string
