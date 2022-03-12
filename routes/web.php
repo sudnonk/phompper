@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('maptest');
 });
+Route::get('/index',function (){
+    return view('index');
+})->name('index');

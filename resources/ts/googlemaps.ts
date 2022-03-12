@@ -74,6 +74,7 @@ function reMarker(pos: LatLng, map: GMap) {
     }
     marker = new Marker({position: pos, map: map});
     getAddress(pos);
+    setLatLng(pos);
 }
 
 /**
@@ -107,7 +108,7 @@ function getUserLocation(defaultPosition: LatLng): LatLng {
 }
 
 /**
- *
+ * latlngの場所の住所を取得する
  * @param latlng
  */
 function getAddress(latlng: LatLng): void {
@@ -143,15 +144,33 @@ function setMapStatus(str: string): void {
 }
 
 /**
- *
+ * HTMLのinputタグ #addressにstrを値として入力する
  * @param str
  */
 function setAddress(str: string): void {
     const addrDOM = document.getElementById("address");
-    if (addrDOM === null) {
+    if (addrDOM === null || !(addrDOM instanceof HTMLInputElement)) {
         return;
     }
-    addrDOM.innerText = str;
+    addrDOM.value = str;
+}
+
+/**
+ * HTMLのinputタグ #latitudeと#longitudeに、latlngのlatitudeとlongitudeを値として入力する
+ * @param latlng
+ */
+function setLatLng(latlng: LatLng): void {
+    const latDOM = document.getElementById("latitude");
+    const lngDOM = document.getElementById("longitude");
+    if (latDOM === null || !(latDOM instanceof HTMLInputElement)) {
+        return;
+    }
+    if (lngDOM === null || !(lngDOM instanceof HTMLInputElement)) {
+        return;
+    }
+
+    latDOM.value = latlng.lat().toString();
+    lngDOM.value = latlng.lng().toString();
 }
 
 /**
