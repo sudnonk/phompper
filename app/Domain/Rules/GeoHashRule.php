@@ -27,7 +27,7 @@ class GeoHashRule implements Rule
 
     public function message(): string
     {
-        return ":attributeはGeoHashの形式を満たしていません。";
+        return ":inputはGeoHashの形式を満たしていません。";
     }
 
 }
