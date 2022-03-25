@@ -22,7 +22,7 @@ final class Longitude extends BaseValueObject
 
     public static function message(): array
     {
-        return [sprintf("%sは経度の範囲外です。", self::$name)];
+        return [":inputは:attributeの範囲外です。"];
     }
 
     /**
