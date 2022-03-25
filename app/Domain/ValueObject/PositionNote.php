@@ -2,7 +2,7 @@
 
 namespace App\Domain\ValueObject;
 
-class PositionNote extends BaseValueObject
+final class PositionNote extends BaseValueObject
 {
     protected static $name = "備考";
 

@@ -5,7 +5,7 @@ namespace App\Domain\Rules;
 use App\Domain\ValueObject\GeoHash;
 use Illuminate\Contracts\Validation\Rule;
 
-class GeoHashRule implements Rule
+final class GeoHashRule implements Rule
 {
     public function passes($attribute, $value): bool
     {

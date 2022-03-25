@@ -2,7 +2,7 @@
 
 namespace App\Domain\ValueObject;
 
-class BuildingName extends BaseValueObject
+final class BuildingName extends BaseValueObject
 {
     protected static $name = "通信ビル名";
 

@@ -2,7 +2,7 @@
 
 namespace App\Domain\ValueObject;
 
-class PositionType extends EnumValueObject
+final class PositionType extends EnumValueObject
 {
     protected static $name = "地点種別";
 

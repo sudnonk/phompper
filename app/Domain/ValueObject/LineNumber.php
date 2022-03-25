@@ -2,7 +2,7 @@
 
 namespace App\Domain\ValueObject;
 
-class LineNumber extends BaseValueObject
+final class LineNumber extends BaseValueObject
 {
     protected static $name = "線番";
 
