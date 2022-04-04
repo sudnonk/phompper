@@ -4,7 +4,7 @@ namespace App\Domain\ValueObject;
 
 final class BuildingName extends BaseValueObject
 {
-    protected static $name = "通信ビル名";
+    protected static string $name = "通信ビル名";
 
     public static function rule(): array
     {

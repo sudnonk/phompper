@@ -4,7 +4,7 @@ namespace App\Domain\ValueObject;
 
 final class LineNumber extends BaseValueObject
 {
-    protected static $name = "線番";
+    protected static string $name = "線番";
 
     public static function rule(): array
     {

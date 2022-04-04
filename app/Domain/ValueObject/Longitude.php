@@ -2,6 +2,8 @@
 
 namespace App\Domain\ValueObject;
 
+use JetBrains\PhpStorm\Pure;
+
 final class Longitude extends BaseValueObject
 {
     /**
@@ -11,9 +13,7 @@ final class Longitude extends BaseValueObject
      */
     protected const PRECISION = 6;
 
-    protected static $name = "経度";
-    /** @var float $value */
-    protected $value;
+    protected static string $name = "経度";
 
     public static function rule(): array
     {

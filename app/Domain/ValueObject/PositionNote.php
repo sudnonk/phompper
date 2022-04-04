@@ -4,7 +4,7 @@ namespace App\Domain\ValueObject;
 
 final class PositionNote extends BaseValueObject
 {
-    protected static $name = "備考";
+    protected static string $name = "備考";
 
     public static function rule(): array
     {

@@ -6,16 +6,8 @@ abstract class BaseValueObject
 {
     use ValidatableValueObjectTrait;
 
-    protected $value;
-
-    public function __construct($value)
+    public function __construct(public readonly mixed $value)
     {
         self::validate($value);
-        $this->value = $value;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
     }
 }

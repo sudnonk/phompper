@@ -4,10 +4,11 @@ namespace App\Domain\ValueObject;
 
 use App\Exceptions\ValidatorInvalidArgumentException;
 use Illuminate\Support\Facades\Validator;
+use JetBrains\PhpStorm\Pure;
 
 trait ValidatableValueObjectTrait
 {
-    static protected $name = "";
+    static protected string $name = "";
 
     /**
      * 値を検証し、NGなら例外を投げる。OKなら何もしない
@@ -16,7 +17,7 @@ trait ValidatableValueObjectTrait
      * @return void
      * @throws \InvalidArgumentException
      */
-    final protected static function validate($value): void
+    final protected static function validate(mixed $value): void
     {
         $data = [static::$name => $value];
         $rule = [static::$name => static::rule()];
@@ -36,6 +37,7 @@ trait ValidatableValueObjectTrait
      *
      * @return array
      */
+    #[Pure]
     public static function rule(): array
     {
         return [];
@@ -46,6 +48,7 @@ trait ValidatableValueObjectTrait
      *
      * @return array
      */
+    #[Pure]
     public static function message(): array
     {
         return [];

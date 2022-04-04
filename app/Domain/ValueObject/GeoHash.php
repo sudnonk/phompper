@@ -3,6 +3,7 @@
 namespace App\Domain\ValueObject;
 
 use App\Domain\Rules\GeoHashRule;
+use JetBrains\PhpStorm\Pure;
 
 final class GeoHash extends BaseValueObject
 {
@@ -17,23 +18,20 @@ final class GeoHash extends BaseValueObject
      */
     private const PRECISION = 24;
 
-    protected static $name = "GeoHash";
-    /** @var $value string */
-    protected $value;
+    protected static string $name = "GeoHash";
 
-    /** @var Latitude $latitude */
-    protected $latitude;
-    /** @var Longitude $longitude */
-    protected $longitude;
+    public readonly Latitude $latitude;
+    public readonly Longitude $longitude;
 
-    public function __construct(string $value)
+    public function __construct(public readonly string $value)
     {
         parent::__construct($value);
-        $latlng = self::parse($value);
+        $latlng = self::parse($this->value);
         $this->latitude = $latlng[0];
         $this->longitude = $latlng[1];
     }
 
+    #[Pure]
     public static function rule(): array
     {
         return [new GeoHashRule()];
@@ -62,31 +60,7 @@ final class GeoHash extends BaseValueObject
 
     public static function fromLatLng(Latitude $latitude, Longitude $longitude): self
     {
-        $geoHash = (new \Sk\Geohash\Geohash())->encode($latitude->getValue(), $longitude->getValue(), self::PRECISION);
+        $geoHash = (new \Sk\Geohash\Geohash())->encode($latitude->value, $longitude->value, self::PRECISION);
         return new self($geoHash);
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return Latitude
-     */
-    public function getLatitude(): Latitude
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @return Longitude
-     */
-    public function getLongitude(): Longitude
-    {
-        return $this->longitude;
     }
 }

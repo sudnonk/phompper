@@ -2,12 +2,13 @@
 
 namespace App\Domain\ValueObject;
 
-final class PositionType extends EnumValueObject
-{
-    protected static $name = "地点種別";
+enum PositionType: string{
+    case DENSHIN = "電信柱";
+    case DENCHU = "電柱";
+    case BUILDING = "通信ビル";
+    case OTHER = "その他";
 
-    const DENSHIN = "電信柱";
-    const DENCHU = "電柱";
-    const BUILDING = "通信ビル";
-    const OTHER = "その他";
+    public function equals(self $value):bool{
+        return $this->value === $value->value;
+    }
 }
