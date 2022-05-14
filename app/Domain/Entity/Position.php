@@ -28,10 +28,10 @@ abstract class Position
         string $latitude,
         string $longitude,
         string $positionType,
-        string $lineName,
-        string $lineNumber,
-        string $buildingName,
-        string $positionNote
+        ?string $lineName,
+        ?string $lineNumber,
+        ?string $buildingName,
+        ?string $positionNote
     ): Position {
         $latitude = new Latitude($latitude);
         $longitude = new Longitude($longitude);
