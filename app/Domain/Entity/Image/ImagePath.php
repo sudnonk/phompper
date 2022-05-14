@@ -23,11 +23,6 @@ class ImagePath
         return sprintf('%s_%s.%s', $this->geohash->value, $this->filehash->value, $this->extension->value);
     }
 
-    public function getURL(): string
-    {
-        return env('GOOGLE_BUCKET_URL') . $this->concat();
-    }
-
     /**
      * @param string $filename
      * @return static

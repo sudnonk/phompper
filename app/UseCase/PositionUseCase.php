@@ -2,8 +2,8 @@
 
 namespace App\UseCase;
 
-use App\Domain\Entity\Image\ImagePath;
 use App\Domain\Entity\Position\Position;
+use App\Domain\ValueObject\Image\ImageURL;
 use App\Domain\ValueObject\Position\GeoHash;
 use App\Http\Requests\StorePositionRequest;
 use App\Infrastructure\Database\ImageRepositoryInterface;
@@ -45,12 +45,12 @@ class PositionUseCase
     }
 
     /**
-     * $geoHashのImagePathをデータベースから取得し、ImagePathオブジェクトの配列を生成して返す
+     * $geoHashのImagePathをデータベースから取得し、そのURLを取得してImageURLオブジェクトの配列を生成して返す
      *
      * @param GeoHash $geoHash
-     * @return ImagePath[]
+     * @return ImageURL[]
      */
-    public function findImages(GeoHash $geoHash): array
+    public function findImageURLs(GeoHash $geoHash): array
     {
         return $this->imageRepository->findImages($geoHash);
     }

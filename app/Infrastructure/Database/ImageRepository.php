@@ -44,4 +44,14 @@ class ImageRepository implements ImageRepositoryInterface
         return $imagePaths;
     }
 
+    public function findImageURLs(GeoHash $geoHash): array
+    {
+        $imageURLs = [];
+        $imagePaths = $this->findImages($geoHash);
+        foreach ($imagePaths as $imagePath) {
+            $imageURLs[] = $this->imageStorage->getImageURL($imagePath);
+        }
+        return $imageURLs;
+    }
+
 }
