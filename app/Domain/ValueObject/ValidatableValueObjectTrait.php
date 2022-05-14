@@ -8,21 +8,25 @@ use JetBrains\PhpStorm\Pure;
 
 trait ValidatableValueObjectTrait
 {
-    static protected string $name = "";
-
     /**
      * 値を検証し、NGなら例外を投げる。OKなら何もしない
      *
-     * @param mixed $value 検証する値
+     * @param mixed       $value 検証する値
+     * @param string|null $name もしこのTraitが使用されている値クラスにstatic $nameプロパティが無ければ、この値を使用する。
      * @return void
-     * @throws \InvalidArgumentException
+     * @throws ValidatorInvalidArgumentException
      */
-    final protected static function validate(mixed $value): void
+    final protected static function validate(mixed $value,?string $name = null): void
     {
-        $data = [static::$name => $value];
-        $rule = [static::$name => static::rule()];
-        $message = [static::$name => static::message()];
+        if (property_exists(static::class, "name")) {
+            $value_name = static::$name;
+        }else{
+            $value_name = $name;
+        }
 
+        $data = [$value_name => $value];
+        $rule = [$value_name=> static::rule()];
+        $message = [$value_name => static::message()];
 
         $validator = Validator::make($data, $rule, $message);
         if ($validator->fails()) {
