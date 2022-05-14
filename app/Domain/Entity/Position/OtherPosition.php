@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Entity;
+namespace App\Domain\Entity\Position;
 
 use App\Domain\ValueObject\GeoHash;
 use App\Domain\ValueObject\PositionNote;

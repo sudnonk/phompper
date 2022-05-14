@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Position;
-use App\Rules\PositionLineRule;
-use App\Rules\PositionNameRule;
-use App\Rules\PositionNumberRule;
-use App\Rules\PositionTypeRule;
+use App\Domain\Entity\Position\Position;
+use App\Domain\Rules\PositionRule;
+use App\Domain\ValueObject\PositionType;
+use App\Exceptions\ValidatorInvalidArgumentException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * 地点新規作成時のフォーム入力データバリデーションルール
@@ -31,49 +31,60 @@ class StorePositionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    #[ArrayShape([
+        'lat' => "string[]",
+        'long' => "string[]",
+        'type' => "string[]",
+        'line' => "Rule[]",
+        'number' => "Rule[]",
+        'name' => "Rule[]",
+        'note' => "Rule[]",
+    ])] public function rules(): array
     {
+        $type = PositionType::tryFrom($this->request->get('type'));
         return [
-            'lat' => ['required', 'numeric', 'between:-90,90'],
-            'long' => ['required', 'numeric', 'between:-180,180'],
-            'type' => ['required', new PositionTypeRule()],
+            'lat' => [
+                'required',
+                PositionRule::latRule(),
+            ],
+            'long' => [
+                'required',
+                PositionRule::longRule(),
+            ],
+            'type' => [
+                'required',
+                PositionRule::typeRule(),
+            ],
             'line' => [
-                'nullable',
-                new PositionLineRule($this->request->get('type')),
-                'string',
-                'max:255',
+                PositionRule::nameRule($type),
             ],
             'number' => [
-                'nullable',
-                new PositionNumberRule($this->request->get('type')),
-                'string',
-                'max:255',
+                PositionRule::numberRule($type),
             ],
             'name' => [
-                'nullable',
-                new PositionNameRule($this->request->get('type')),
-                'string',
-                'max:255',
+                PositionRule::buildingRule($type),
             ],
             'note' => [
-                'nullable',
-                'string',
-                'max:1024',
+                PositionRule::noteRule($type),
             ],
         ];
     }
 
     /**
-     * バリデーション成功時に行う処理
-     *
-     * @return void
+     * @return Position
+     * @throws ValidatorInvalidArgumentException
      */
-    protected function passedValidation(): void
+    public function makePosition(): Position
     {
-        //経度と緯度をgeohashにする
-        $geohash = Position::toGeoHash($this->input('lat') + 0.00, $this->input('long') + 0.00);
-        $this->merge([
-            'geohash' => $geohash,
-        ]);
+        $values = $this->validated();
+        return Position::fromStrings(
+            latitude: $values["lat"],
+            longitude: $values['long'],
+            positionType: $values['type'],
+            lineName: $values['line'],
+            lineNumber: $values['number'],
+            buildingName: $values['name'],
+            positionNote: $values['note']
+        );
     }
 }

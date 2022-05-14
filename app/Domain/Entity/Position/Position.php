@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Entity;
+namespace App\Domain\Entity\Position;
 
 use App\Domain\ValueObject\BuildingName;
 use App\Domain\ValueObject\GeoHash;
