@@ -3,7 +3,6 @@
 namespace App\Domain\ValueObject\Position;
 
 use App\Domain\ValueObject\BaseValueObject;
-use function App\Domain\ValueObject\mb_strlen;
 
 final class PositionNote extends BaseValueObject
 {
