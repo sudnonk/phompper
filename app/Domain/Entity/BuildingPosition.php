@@ -9,31 +9,11 @@ use App\Domain\ValueObject\PositionType;
 
 class BuildingPosition extends Position
 {
-    /** @var BuildingName $name */
-    protected $name;
-
     public function __construct(
-        GeoHash $geoHash,
-        BuildingName $buildingName,
-        PositionNote $positionNote
+        public readonly GeoHash $geoHash,
+        public readonly BuildingName $buildingName,
+        public readonly PositionNote $positionNote
     ) {
-        parent::__construct($geoHash, $positionNote);
-        $this->name = $buildingName;
+        parent::__construct($geoHash, $positionNote,PositionType::BUILDING);
     }
-
-    protected function setType(): PositionType
-    {
-        return new PositionType(PositionType::BUILDING);
-    }
-
-
-    /**
-     * @return BuildingName
-     */
-    public function getName(): BuildingName
-    {
-        return $this->name;
-    }
-
-
 }
