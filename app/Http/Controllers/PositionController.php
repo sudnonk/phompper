@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Position;
+use App\Domain\Entity\Position\Position;
+use App\Exceptions\ValidatorInvalidArgumentException;
 use App\Http\Requests\StorePositionRequest;
 use App\Http\Requests\UpdatePositionRequest;
+use App\Http\Resources\PositionResource;
+use App\UseCase\PositionUseCase;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PositionController extends Controller
 {
@@ -21,9 +27,9 @@ class PositionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         //
     }
@@ -31,52 +37,39 @@ class PositionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePositionRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePositionRequest $request
+     * @return JsonResponse|RedirectResponse
      */
-    public function store(StorePositionRequest $request)
+    public function store(StorePositionRequest $request): JsonResponse|RedirectResponse
     {
-        //
+        $useCase = new PositionUseCase();
+        try {
+            $position = $useCase->createPosition($request);
+            $images = $useCase->findImageURLs($position->geoHash);
+        } catch (ValidatorInvalidArgumentException $e) {
+            return (new RedirectResponse(''))->withErrors($e->getErrors())->withInput();
+        } catch (\ValueError|\InvalidArgumentException $e) {
+            return (new RedirectResponse(''))->withErrors($e->getMessage())->withInput();
+        }
+
+        return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 201);
     }
 
     /**
-     * Display the specified resource.
+     * APIでそのPositionを表示する
      *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
+     * @param Position $position
+     * @return JsonResponse
      */
-    public function show(Position $position)
+    public function show(Position $position): JsonResponse
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Position $position)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePositionRequest  $request
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePositionRequest $request, Position $position)
-    {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Position  $position
+     * @param \App\Infrastructure\Models\Position $position
      * @return \Illuminate\Http\Response
      */
     public function destroy(Position $position)
