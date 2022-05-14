@@ -2,22 +2,22 @@
 
 namespace Tests\Unit;
 
-use App\Domain\ValueObject\GeoHash;
-use App\Domain\ValueObject\Latitude;
-use App\Domain\ValueObject\Longitude;
+use App\Domain\ValueObject\Position\GeoHash;
+use App\Domain\ValueObject\Position\Latitude;
+use App\Domain\ValueObject\Position\Longitude;
 use App\Exceptions\ValidatorInvalidArgumentException;
 use Tests\TestCase;
 
 class GeoHashTest extends TestCase
 {
-    protected $testLat = 35.68250603692052;
-    protected $testLng = 139.7658224841778;
+    protected float $testLat = 35.68250603692052;
+    protected float $testLng = 139.7658224841778;
 
     public function test緯度経度をGeoHashにできる(): string
     {
         $geoHash = GeoHash::fromLatLng(new Latitude($this->testLat), new Longitude($this->testLng));
         self::assertInstanceOf(GeoHash::class, $geoHash);
-        return $geoHash->getValue();
+        return $geoHash->value;
     }
 
     /**
@@ -27,22 +27,22 @@ class GeoHashTest extends TestCase
     public function test正しいGeoHashがパースできる($geoHash)
     {
         $geoHash = new GeoHash($geoHash);
-        self::assertTrue($geoHash->getLatitude()->equals($this->testLat));
-        self::assertTrue($geoHash->getLongitude()->equals($this->testLng));
+        self::assertTrue($geoHash->latitude->equals($this->testLat));
+        self::assertTrue($geoHash->longitude->equals($this->testLng));
     }
 
     public function test正しい緯度が緯度になる()
     {
         $lat = new Latitude($this->testLat);
         self::assertTrue($lat->equals($this->testLat));
-        self::assertIsFloat($lat->getValue());
+        self::assertIsFloat($lat->value);
     }
 
     public function test正しい経度が経度になる()
     {
         $lng = new Longitude($this->testLng);
         self::assertTrue($lng->equals($this->testLng));
-        self::assertIsFloat($lng->getValue());
+        self::assertIsFloat($lng->value);
     }
 
     /**
