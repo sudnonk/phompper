@@ -17,14 +17,17 @@ final class GeoHash extends BaseValueObject
      *
      * @const PRECISION GeoHashの精度。
      */
-    private const PRECISION = 24;
+    public const PRECISION = 24;
 
     protected static string $name = "GeoHash";
 
     public readonly Latitude $latitude;
     public readonly Longitude $longitude;
 
-    public function __construct(public readonly string $value)
+    /**
+     * @param string $value
+     */
+    public function __construct(public readonly mixed $value)
     {
         parent::__construct($value);
         $latlng = self::parse($this->value);
