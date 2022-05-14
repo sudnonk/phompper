@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.5",
         "myclabs/php-enum": "^1.8",
         "ramsey/uuid": "^4.2",
-        "saikiran/geohash": "^1.0"
+        "saikiran/geohash": "^1.0",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
