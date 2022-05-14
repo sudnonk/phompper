@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity\Position;
 
+use App\Domain\ValueObject\DateTimeImmutable;
 use App\Domain\ValueObject\Position\BuildingName;
 use App\Domain\ValueObject\Position\GeoHash;
 use App\Domain\ValueObject\Position\Latitude;
@@ -16,13 +17,16 @@ abstract class Position
 {
     /** @var PositionType $type この地点の種別 */
     public readonly PositionType $type;
+    public readonly DateTimeImmutable $createdAt;
 
     protected function __construct(
         public readonly GeoHash $geoHash,
         public readonly PositionNote $positionNote,
-        public readonly PositionType $positionType
+        public readonly PositionType $positionType,
+        DateTimeImmutable $createdAt = null
     ) {
         $this->type = $this->positionType;
+        $this->createdAt = DateTimeImmutable::now();
     }
 
     /**
