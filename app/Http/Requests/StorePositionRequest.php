@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Domain\Entity\Image\ImagePath;
 use App\Domain\Entity\Position\Position;
 use App\Domain\Rules\PositionRule;
 use App\Domain\ValueObject\Position\PositionType;
@@ -86,5 +87,23 @@ class StorePositionRequest extends FormRequest
             buildingName: $values['name'],
             positionNote: $values['note']
         );
+    }
+
+    /**
+     * @param Position $position
+     * @return Array<string,ImagePath> キーは一次保存先のtmpPath、値は保存先のImagePath
+     * @throws \InvalidArgumentException
+     */
+    public function makeImages(Position $position): array
+    {
+        $images = [];
+        foreach ($this->file('images') as $file) {
+            $tmpPath = $file->getRealPath();
+            if ($tmpPath === false) {
+                continue;
+            }
+            $images[$tmpPath] = ImagePath::createFromUploadedFile($position, $file);
+        }
+        return $images;
     }
 }
