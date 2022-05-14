@@ -10,6 +10,7 @@ use App\Domain\ValueObject\LineNumber;
 use App\Domain\ValueObject\Longitude;
 use App\Domain\ValueObject\PositionNote;
 use App\Domain\ValueObject\PositionType;
+use App\Exceptions\ValidatorInvalidArgumentException;
 
 abstract class Position
 {
@@ -24,6 +25,17 @@ abstract class Position
         $this->type = $this->positionType;
     }
 
+    /**
+     * @param string      $latitude
+     * @param string      $longitude
+     * @param string      $positionType
+     * @param string|null $lineName
+     * @param string|null $lineNumber
+     * @param string|null $buildingName
+     * @param string|null $positionNote
+     * @return Position
+     * @throws ValidatorInvalidArgumentException
+     */
     public static function fromStrings(
         string $latitude,
         string $longitude,
