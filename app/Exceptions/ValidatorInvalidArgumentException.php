@@ -8,11 +8,11 @@ use Throwable;
 class ValidatorInvalidArgumentException extends \InvalidArgumentException
 {
     /** @var mixed $value この例外を引き起こしたInvalidな値 */
-    protected $value;
+    protected mixed $value;
     /** @var MessageBag $errors */
-    protected $errors;
+    protected MessageBag $errors;
 
-    public function __construct($value, Throwable $previous = null, $code = 400)
+    public function __construct($value = null, Throwable $previous = null, $code = 400)
     {
         $message = "ValidatorInvalidArgumentException occurred.";
         parent::__construct($message, $code, $previous);
@@ -21,6 +21,20 @@ class ValidatorInvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * エラーをstringから追加する。
+     *
+     * @param string $name     そのエラーの名前。例：年齢を入れるinput fieldでエラーが有った場合は、「年齢」
+     * @param string $errorMsg そのエラーのメッセージ。例：年齢を入れるinput fieldでエラーが合ったは、「年齢が間違っています」
+     * @return void
+     */
+    public function setError(string $name, string $errorMsg): void
+    {
+        $this->errors = $this->errors->add($name, $errorMsg);
+    }
+
+    /**
+     * エラーをMessageBagから追加する。例えばValidator::make()から出てくるバリデーションエラーはMessageBagに格納された形で出てくるので、それをこの例外に追加したいときなど。
+     *
      * @param MessageBag $errors
      * @return void
      */
@@ -44,7 +58,8 @@ class ValidatorInvalidArgumentException extends \InvalidArgumentException
      *
      * @return mixed
      */
-    public function getValue(){
+    public function getValue(): mixed
+    {
         return $this->value;
     }
 }
