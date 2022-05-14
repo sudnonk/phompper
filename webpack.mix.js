@@ -13,4 +13,5 @@ const mix = require('laravel-mix');
 
 mix.typeScript('resources/ts/googlemaps.ts', 'public/js')
     .typeScript('resources/ts/main.ts', 'public/js')
-    .typeScript('resources/ts/register.ts','public/js');
+    .typeScript('resources/ts/register.ts','public/js')
+    .typeScript('resources/ts/show.ts','public/js');

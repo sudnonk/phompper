@@ -125,17 +125,23 @@
             </div>
         </form>
     </section>
-    <div>テスト</div>
     <a role="button" class="btn-floating btn-large waves-effect green darken-2" href="#">+</a>
+
+    <div style="display: none">
+        <a href="{{route('position.store')}}" id="submitURL"></a>
+        <a href="{{route('position.list')}}" id="listURL"></a>
+        <a href="{{route('position.show')}}" id="showURL"></a>
+        <input type="hidden" value="{{csrf_token()}}" id="token">
+    </div>
 @endsection
 
 @section('js-tail')
-    <script src="https://maps.googleapis.com/maps/api/js?key={{config('googlemap.api-key')}}&v=weekly" defer></script>
-    <script src="{{asset('/js/googlemaps.js')}}" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{config('googlemap.api-key')}}&v=weekly"></script>
+    <script src="{{asset('/js/main.js')}}"></script>
+    <script src="{{asset('/js/googlemaps.js')}}"></script>
+    <script src="{{asset('/js/register.js')}}"></script>
+    <script src="{{asset('/js/show.js')}}"></script>
     <script>
-        window.registerForm = {};
-        window.registerForm.token = "{{csrf_token()}}";
-        window.registerForm.url = "{{route('index')}}";
+
     </script>
-    <script src="{{asset('/js/register.js')}}" defer></script>
 @endsection

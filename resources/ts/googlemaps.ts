@@ -4,23 +4,16 @@ import MapMouseEvent = google.maps.MapMouseEvent;
 import GMap = google.maps.Map;
 import Marker = google.maps.Marker;
 import Gcoder = google.maps.Geocoder;
+import {main} from "./main";
 
 let map: GMap;
 let marker: null | Marker = null;
 let geocoder: Gcoder;
 
-interface Window {
-    initMap(): void;
-
-    gm_authFailure(): void;
-}
-
-declare var window: Window & typeof globalThis;
-
 /**
  * GoogleMapsを初期化する
  */
-function initMap(): void {
+main.initMap = function (): void {
     //デフォルトでは東京駅を表示する
     const defPos: LatLng = new LatLng({lat: 35.681217751538604, lng: 139.76709999359113});
     const mapDOM: HTMLElement | null = document.getElementById("map");
@@ -54,7 +47,8 @@ function initMap(): void {
  */
 function moveToPoint(mapMouseEvent: MapMouseEvent): void {
     const latlng = mapMouseEvent.latLng;
-    if (latlng === null) {
+    if (latlng === null
+    ) {
         return;
     }
     const pos = new LatLng(latlng);
@@ -77,6 +71,41 @@ function reMarker(pos: LatLng, map: GMap) {
     setLatLng(pos);
 }
 
+main.setMarker = function (data: JSON) {
+    let datum: any
+    let markers = [];
+    for (datum in data) {
+        let pos = new LatLng({lat: datum.latitude, lng: datum.longitude})
+        let icon;
+        switch (datum.type) {
+            case "DENSHIN":
+                icon = "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                break;
+            case "DENCHU":
+                icon = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                break;
+            case "BUILDING":
+                icon = "https://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                break;
+            case "OTHER":
+                icon = "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                break;
+        }
+
+        let marker = new Marker({
+            position: pos,
+            map: map,
+            icon: icon,
+            title: datum.geoHash,
+            optimized: true,
+        }).addListener('click', function () {
+            main.showPosition(datum.geoHash);
+        })
+
+        markers.push(marker);
+    }
+}
+
 /**
  * ブラウザの地理的位置を取得する
  * @param defaultPosition 取得に失敗した際に表示する場所
@@ -92,7 +121,7 @@ function getUserLocation(defaultPosition: LatLng): LatLng {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
-        setMapStatus("現在値を取得しました");
+        setMapStatus("現在位置を取得しました");
     }
     const errorCallback = function () {
         setMapStatus("現在位置の取得に失敗しました。東京を表示します。");
@@ -176,10 +205,6 @@ function setLatLng(latlng: LatLng): void {
 /**
  * GoooleMapsの認証に失敗したときに実行される関数
  */
-function gm_authFailure(): void {
+main.gm_authFailure = function (): void {
     setMapStatus("Google Mapsを読み込めませんでした。");
 }
-
-window.gm_authFailure = gm_authFailure;
-
-initMap();
