@@ -2,13 +2,13 @@
 
 namespace App\Domain\Rules;
 
-use App\Domain\ValueObject\BuildingName;
-use App\Domain\ValueObject\Latitude;
-use App\Domain\ValueObject\LineName;
-use App\Domain\ValueObject\LineNumber;
-use App\Domain\ValueObject\Longitude;
-use App\Domain\ValueObject\PositionNote;
-use App\Domain\ValueObject\PositionType;
+use App\Domain\ValueObject\Position\BuildingName;
+use App\Domain\ValueObject\Position\Latitude;
+use App\Domain\ValueObject\Position\LineName;
+use App\Domain\ValueObject\Position\LineNumber;
+use App\Domain\ValueObject\Position\Longitude;
+use App\Domain\ValueObject\Position\PositionNote;
+use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
 use Illuminate\Contracts\Validation\Rule;
 use JetBrains\PhpStorm\Pure;

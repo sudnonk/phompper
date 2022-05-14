@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\ValueObject\Position;
+
+use App\Domain\ValueObject\BaseValueObject;
 
 final class LineName extends BaseValueObject
 {

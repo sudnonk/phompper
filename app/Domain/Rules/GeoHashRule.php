@@ -2,7 +2,7 @@
 
 namespace App\Domain\Rules;
 
-use App\Domain\ValueObject\GeoHash;
+use App\Domain\ValueObject\Position\GeoHash;
 use Illuminate\Contracts\Validation\Rule;
 
 final class GeoHashRule implements Rule

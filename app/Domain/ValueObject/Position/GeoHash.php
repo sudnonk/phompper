@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\ValueObject\Position;
 
 use App\Domain\Rules\GeoHashRule;
+use App\Domain\ValueObject\BaseValueObject;
 use JetBrains\PhpStorm\Pure;
 
 final class GeoHash extends BaseValueObject

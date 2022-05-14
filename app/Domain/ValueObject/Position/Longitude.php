@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\ValueObject\Position;
 
-use JetBrains\PhpStorm\Pure;
+use App\Domain\ValueObject\BaseValueObject;
 
 final class Longitude extends BaseValueObject
 {

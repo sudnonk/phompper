@@ -2,11 +2,11 @@
 
 namespace App\Domain\Entity\Position;
 
-use App\Domain\ValueObject\GeoHash;
-use App\Domain\ValueObject\LineName;
-use App\Domain\ValueObject\LineNumber;
-use App\Domain\ValueObject\PositionNote;
-use App\Domain\ValueObject\PositionType;
+use App\Domain\ValueObject\Position\GeoHash;
+use App\Domain\ValueObject\Position\LineName;
+use App\Domain\ValueObject\Position\LineNumber;
+use App\Domain\ValueObject\Position\PositionNote;
+use App\Domain\ValueObject\Position\PositionType;
 
 class DenchuPosition extends Position
 {

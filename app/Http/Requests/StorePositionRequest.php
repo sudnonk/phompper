@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Domain\Entity\Position\Position;
 use App\Domain\Rules\PositionRule;
-use App\Domain\ValueObject\PositionType;
+use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
