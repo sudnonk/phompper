@@ -2,38 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Entity\Position\Position;
+use App\Domain\ValueObject\Position\GeoHash;
 use App\Exceptions\ValidatorInvalidArgumentException;
 use App\Http\Requests\StorePositionRequest;
-use App\Http\Requests\UpdatePositionRequest;
+use App\Http\Resources\PositionListResource;
 use App\Http\Resources\PositionResource;
 use App\UseCase\PositionUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Illuminate\Http\Response;
 
 class PositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create(): View
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -56,24 +36,42 @@ class PositionController extends Controller
     }
 
     /**
-     * APIでそのPositionを表示する
+     * APIでPositionの一覧を表示する
      *
-     * @param Position $position
      * @return JsonResponse
      */
-    public function show(Position $position): JsonResponse
+    public function list(): JsonResponse
     {
-
+        $useCase = new PositionUseCase();
+        $positions = $useCase->findAll();
+        return new JsonResponse(new PositionListResource($positions), 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * APIでそのPositionを表示する
      *
-     * @param \App\Infrastructure\Models\Position $position
-     * @return \Illuminate\Http\Response
+     * @param GeoHash $geoHash
+     * @return JsonResponse
      */
-    public function destroy(Position $position)
+    public function show(GeoHash $geoHash): JsonResponse
     {
-        //
+        $useCase = new PositionUseCase();
+        $position = $useCase->find($geoHash->value);
+        $images = $useCase->findImageURLs($geoHash);
+        return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 200);
+    }
+
+
+    /**
+     * @param GeoHash $geoHash
+     * @return Response
+     */
+    public function destroy(GeoHash $geoHash): Response
+    {
+        $useCase = new PositionUseCase();
+        $position = $useCase->find($geoHash);
+        $useCase->delete($position);
+
+        return new Response(null, 204);
     }
 }
