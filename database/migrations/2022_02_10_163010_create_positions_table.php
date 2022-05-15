@@ -14,10 +14,8 @@ class CreatePositionsTable extends Migration
     public function up()
     {
         Schema::create('positions', function (Blueprint $table) {
-            //ID: UUIDv4で一意
-            $table->string('id', 36)->primary();
             //GeoHASH: 緯度と経度を24文字ぐらいで表せるもの
-            $table->string('geohash')->nullable(false);
+            $table->string('geohash')->primary();
             //種別: その地点の種別
             $table->string('type')->nullable(false);
             //支線名（電信柱・電柱の場合）
