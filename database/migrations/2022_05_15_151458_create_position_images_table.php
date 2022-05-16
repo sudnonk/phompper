@@ -14,8 +14,8 @@ class CreatePositionImagesTable extends Migration
     public function up()
     {
         Schema::create('position_images', function (Blueprint $table) {
-            $table->string('fileName')->unique();
-            $table->string('geoHash')->primary();
+            $table->string('fileName')->primary();
+            $table->string('geoHash')->index();
             $table->timestamps();
         });
     }

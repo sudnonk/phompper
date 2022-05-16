@@ -19,15 +19,13 @@ class CreatePositionsTable extends Migration
             //種別: その地点の種別
             $table->string('type')->nullable(false);
             //支線名（電信柱・電柱の場合）
-            $table->string('line',255);
+            $table->string('line',255)->nullable(true);
             //番号（電信柱・電柱の場合）
-            $table->string('number',255);
+            $table->string('number',255)->nullable(true);
             //ビル名（通信ビルの場合）
-            $table->string('name',255);
+            $table->string('name',255)->nullable(true);
             //備考（メモ）
             $table->string('note',1024);
-            //この地点を登録したユーザ
-            $table->string('user_id')->nullable();
             $table->timestamps();
         });
     }
