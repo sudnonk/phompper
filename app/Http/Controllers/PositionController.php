@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\ValueObject\Position\GeoHash;
 use App\Exceptions\ValidatorInvalidArgumentException;
+use App\Http\Requests\GeoHashParameterRequest;
 use App\Http\Requests\StorePositionRequest;
 use App\Http\Resources\PositionListResource;
 use App\Http\Resources\PositionResource;
 use App\UseCase\PositionUseCase;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
 class PositionController extends Controller
@@ -18,18 +17,19 @@ class PositionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StorePositionRequest $request
-     * @return JsonResponse|RedirectResponse
+     * @return JsonResponse
      */
-    public function store(StorePositionRequest $request): JsonResponse|RedirectResponse
+    public function store(StorePositionRequest $request): JsonResponse
     {
-        $useCase = new PositionUseCase();
+        /** @var PositionUseCase $useCase */
+        $useCase = app(PositionUseCase::class);
         try {
             $position = $useCase->createPosition($request);
             $images = $useCase->findImageURLs($position->geoHash);
         } catch (ValidatorInvalidArgumentException $e) {
-            return (new RedirectResponse(''))->withErrors($e->getErrors())->withInput();
+            return new JsonResponse($e->getErrors()->toArray(), 401);
         } catch (\ValueError|\InvalidArgumentException $e) {
-            return (new RedirectResponse(''))->withErrors($e->getMessage())->withInput();
+            return new JsonResponse($e->getMessage(), 401);
         }
 
         return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 201);
@@ -42,7 +42,7 @@ class PositionController extends Controller
      */
     public function list(): JsonResponse
     {
-        $useCase = new PositionUseCase();
+        $useCase = app(PositionUseCase::class);
         $positions = $useCase->findAll();
         return new JsonResponse(new PositionListResource($positions), 200);
     }
@@ -50,12 +50,14 @@ class PositionController extends Controller
     /**
      * APIでそのPositionを表示する
      *
-     * @param GeoHash $geoHash
+     * @param GeoHashParameterRequest $request
      * @return JsonResponse
      */
-    public function show(GeoHash $geoHash): JsonResponse
+    public function show(GeoHashParameterRequest $request): JsonResponse
     {
-        $useCase = new PositionUseCase();
+        $geoHash = $request->getValidatedGeoHash();
+
+        $useCase = app(PositionUseCase::class);
         $position = $useCase->find($geoHash->value);
         $images = $useCase->findImageURLs($geoHash);
         return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 200);
@@ -63,12 +65,13 @@ class PositionController extends Controller
 
 
     /**
-     * @param GeoHash $geoHash
+     * @param GeoHashParameterRequest $request
      * @return Response
      */
-    public function destroy(GeoHash $geoHash): Response
+    public function destroy(GeoHashParameterRequest $request): Response
     {
-        $useCase = new PositionUseCase();
+        $geoHash = $request->getValidatedGeoHash();
+        $useCase = app(PositionUseCase::class);
         $position = $useCase->find($geoHash);
         $useCase->delete($position);
 
