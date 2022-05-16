@@ -20,13 +20,13 @@ abstract class Position
     public readonly DateTimeImmutable $createdAt;
 
     protected function __construct(
-        public readonly GeoHash $geoHash,
-        public readonly PositionNote $positionNote,
-        public readonly PositionType $positionType,
+        GeoHash $geoHash,
+        PositionNote $positionNote,
+        PositionType $positionType,
         DateTimeImmutable $createdAt = null
     ) {
-        $this->type = $this->positionType;
-        $this->createdAt = DateTimeImmutable::now();
+        $this->type = $positionType;
+        $this->createdAt = $createdAt ?? DateTimeImmutable::now();
     }
 
     /**
@@ -56,9 +56,9 @@ abstract class Position
         $positionNote = new PositionNote($positionNote);
         $positionType = PositionType::tryFromString($positionType);
         return match ($positionType) {
-            PositionType::DENCHU => self::denchuFromString(geohash: $geohash, line: $lineName,
+            PositionType::DENCHU => self::denchuFromString(geoHash: $geohash, line: $lineName,
                 number: $lineNumber, note: $positionNote),
-            PositionType::DENSHIN => self::denshinFromString(geohash: $geohash, line: $lineName,
+            PositionType::DENSHIN => self::denshinFromString(geoHash: $geohash, line: $lineName,
                 number: $lineNumber, note: $positionNote),
             PositionType::BUILDING => self::buildingFromString(geoHash: $geohash, name: $buildingName,
                 note: $positionNote),
