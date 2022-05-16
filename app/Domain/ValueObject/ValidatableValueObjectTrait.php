@@ -18,11 +18,7 @@ trait ValidatableValueObjectTrait
      */
     final protected static function validate(mixed $value,?string $name = null): void
     {
-        if (property_exists(static::class, "name")) {
-            $value_name = static::$name;
-        }else{
-            $value_name = $name;
-        }
+        $value_name = static::$name ?? $name;
 
         $data = [$value_name => $value];
         $rule = [$value_name=> static::rule()];
