@@ -21,8 +21,8 @@ class PositionModel
     public static function saveDenchuPosition(DenchuPosition $position): Position
     {
         DB::table(PositionRepository::TABLE_NAME)->insert([
-            'geoHash' => $position->geoHash->value,
-            'type' => $position->positionType->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
             'line' => $position->lineName->value,
             'number' => $position->lineNumber->value,
             'note' => $position->positionNote->value,
@@ -34,8 +34,8 @@ class PositionModel
     public static function saveDenshinPosition(DenshinPosition $position): Position
     {
         DB::table(PositionRepository::TABLE_NAME)->insert([
-            'geoHash' => $position->geoHash->value,
-            'type' => $position->positionType->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
             'line' => $position->lineName->value,
             'number' => $position->lineNumber->value,
             'note' => $position->positionNote->value,
@@ -47,8 +47,8 @@ class PositionModel
     public static function saveBuildingPosition(BuildingPosition $position): Position
     {
         DB::table(PositionRepository::TABLE_NAME)->insert([
-            'geoHash' => $position->geoHash->value,
-            'type' => $position->positionType->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
             'name' => $position->buildingName->value,
             'note' => $position->positionNote->value,
             'created_at' => $position->createdAt->getAsFormat(),
@@ -59,8 +59,8 @@ class PositionModel
     public static function saveOtherPosition(OtherPosition $position): Position
     {
         DB::table(PositionRepository::TABLE_NAME)->insert([
-            'geoHash' => $position->geoHash->value,
-            'type' => $position->positionType->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
             'note' => $position->positionNote->value,
             'created_at' => $position->createdAt->getAsFormat(),
         ]);
