@@ -7,8 +7,8 @@ use App\Domain\Entity\Position\Position;
 use App\Domain\Rules\PositionRule;
 use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -23,8 +23,8 @@ class StorePositionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        //ログインしていればOK
-        return Auth::user() !== null;
+        //ユーザ機能を実装する予定は無いので誰でも登録できる
+        return true;
     }
 
     /**
@@ -82,9 +82,9 @@ class StorePositionRequest extends FormRequest
             latitude: $values["lat"],
             longitude: $values['long'],
             positionType: $values['type'],
-            lineName: $values['line'],
-            lineNumber: $values['number'],
-            buildingName: $values['name'],
+            lineName: $values['line'] ?? null,
+            lineNumber: $values['number'] ?? null,
+            buildingName: $values['name'] ?? null,
             positionNote: $values['note']
         );
     }
@@ -97,6 +97,9 @@ class StorePositionRequest extends FormRequest
     public function makeImages(Position $position): array
     {
         $images = [];
+        if ($this->file('images') === null) {
+            return $images;
+        }
         foreach ($this->file('images') as $file) {
             $tmpPath = $file->getRealPath();
             if ($tmpPath === false) {
@@ -105,5 +108,25 @@ class StorePositionRequest extends FormRequest
             $images[$tmpPath] = ImagePath::createFromUploadedFile($position, $file);
         }
         return $images;
+    }
+
+    /**
+     * バリデーションに失敗しても何もしない
+     *
+     * @param Validator $validator
+     * @return void
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+    }
+
+    /**
+     * このリクエストのバリデータを外に出す
+     *
+     * @return Validator
+     */
+    public function getValidator(): Validator
+    {
+        return $this->validator;
     }
 }
