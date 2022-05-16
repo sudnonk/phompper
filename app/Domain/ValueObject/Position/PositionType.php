@@ -22,7 +22,7 @@ enum PositionType: string
 
     public static function rule(): array
     {
-        return [(string)Rule::in(self::cases())];
+        return [(string)Rule::in(self::values())];
     }
 
     /**
@@ -34,5 +34,13 @@ enum PositionType: string
     {
         PositionType::validate($value,"地点種別");
         return self::tryFrom($value);
+    }
+
+    public static function values():array{
+        $values = [];
+        foreach (self::cases() as $case){
+            $values[] = $case->value;
+        }
+        return $values;
     }
 }
