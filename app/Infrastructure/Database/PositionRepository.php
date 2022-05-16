@@ -46,14 +46,15 @@ class PositionRepository implements PositionRepositoryInterface
      */
     public function find(GeoHash $geoHash): Position
     {
+        /** @var \stdClass $data */
         $data = DB::table(self::TABLE_NAME)
-                  ->select(['geoHash', 'type', 'lineName', 'lineNumber', 'buildingName', 'note'])
-                  ->where('geoHash', '=', $geoHash->value)
+                  ->select(['geohash', 'type', 'line', 'number', 'name', 'note'])
+                  ->where('geohash', '=', $geoHash->value)
                   ->first();
         return PositionModel::makeFromDB(
-            geoHash: $data['geoHash'],
-            positionType: $data['type'], lineName: $data['lineName'], lineNumber: $data['lineNumber'],
-            buildingName: $data['buildingName'], positionNote: $data['note']
+            geoHash: $data->geohash,
+            positionType: $data->type, lineName: $data->line, lineNumber: $data->number,
+            buildingName: $data->name, positionNote: $data->note
         );
     }
 
@@ -61,13 +62,14 @@ class PositionRepository implements PositionRepositoryInterface
     {
         $positions = [];
         $data = DB::table(self::TABLE_NAME)
-                  ->select(['geoHash', 'type', 'lineName', 'lineNumber', 'buildingName', 'note'])
+                  ->select(['geohash', 'type', 'line', 'number', 'name', 'note'])
                   ->get();
+        /** @var \stdClass $datum */
         foreach ($data as $datum) {
             $positions[] = PositionModel::makeFromDB(
-                geoHash: $datum['geoHash'],
-                positionType: $datum['type'], lineName: $datum['lineName'], lineNumber: $datum['lineNumber'],
-                buildingName: $datum['buildingName'], positionNote: $datum['note']
+                geoHash: $datum->geohash,
+                positionType: $datum->type, lineName: $datum->line, lineNumber: $datum->number,
+                buildingName: $datum->name, positionNote: $datum->note
             );
         }
 

@@ -34,11 +34,12 @@ class ImageRepository implements ImageRepositoryInterface
     {
         $imagePaths = [];
         $data = DB::table(self::TABLE_NAME)
-                  ->where('geoHash', '=', $geoHash)
+                  ->where('geoHash', '=', $geoHash->value)
                   ->select(['fileName'])
                   ->get();
+        /** @var \stdClass $datum */
         foreach ($data as $datum) {
-            $imagePaths[] = ImageModel::makeFromDB($datum['fileName']);
+            $imagePaths[] = ImageModel::makeFromDB($datum->fileName);
         }
 
         return $imagePaths;
