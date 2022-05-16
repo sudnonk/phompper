@@ -27,7 +27,7 @@ final class GeoHash extends BaseValueObject
     /**
      * @param string $value
      */
-    public function __construct(public readonly mixed $value)
+    public function __construct(public readonly string $value)
     {
         parent::__construct($value);
         $latlng = self::parse($this->value);

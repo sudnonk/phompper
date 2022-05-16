@@ -8,12 +8,9 @@ final class BuildingName extends BaseValueObject
 {
     protected static string $name = "通信ビル名";
 
-    /**
-     * @param string $value
-     */
-    public function __construct(public readonly mixed $value)
+    public function __construct(public readonly string $value)
     {
-        parent::__construct($this->value);
+        parent::__construct($value);
     }
 
     public static function rule(): array

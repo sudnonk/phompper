@@ -8,6 +8,11 @@ final class LineName extends BaseValueObject
 {
     protected static string $name = "線名";
 
+    public function __construct(public readonly string $value)
+    {
+        parent::__construct($value);
+    }
+
     public static function rule(): array
     {
         return ['string','min:1','max:255'];

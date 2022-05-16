@@ -15,6 +15,14 @@ final class Longitude extends BaseValueObject
 
     protected static string $name = "経度";
 
+    /**
+     * @param float|string $value
+     */
+    public function __construct(public readonly mixed $value)
+    {
+        parent::__construct($value);
+    }
+
     public static function rule(): array
     {
         return ['numeric', 'min:-180', 'max:180'];

@@ -8,7 +8,10 @@ final class PositionNote extends BaseValueObject
 {
     protected static string $name = "備考";
 
-    public function __construct(mixed $value)
+    /**
+     * @param string|null $value
+     */
+    public function __construct(public readonly ?string $value)
     {
         if ($value === null) {
             $value = "";

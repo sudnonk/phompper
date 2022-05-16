@@ -8,8 +8,15 @@ abstract class BaseValueObject
 
     protected static string $name = "";
 
-    public function __construct(public readonly mixed $value)
+    /**
+     * @param $value
+     */
+    public function __construct($value)
     {
         self::validate($value);
+    }
+
+    public function __toString():string{
+        return $this->value;
     }
 }

@@ -6,8 +6,8 @@ use App\Domain\ValueObject\BaseValueObject;
 
 class ImageURL extends BaseValueObject
 {
-    public function __construct(public readonly string $url)
+    public function __construct(public readonly string $value)
     {
-        parent::__construct($this->url);
+        parent::__construct($value);
     }
 }

@@ -12,12 +12,9 @@ class FileHash extends BaseValueObject
     public const ALGO = "crc32";
     public const LENGTH = 8;
 
-    /**
-     * @param string $value
-     */
-    public function __construct(public readonly mixed $value)
+    public function __construct(public readonly string $value)
     {
-        parent::__construct($this->value);
+        parent::__construct($value);
     }
 
     public static function rule(): array
