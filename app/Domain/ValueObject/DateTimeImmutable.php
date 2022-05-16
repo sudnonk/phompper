@@ -4,21 +4,23 @@ namespace App\Domain\ValueObject;
 
 class DateTimeImmutable extends BaseValueObject
 {
-    /**
-     * @param DateTimeImmutable $value
-     */
-    public function __construct(public readonly mixed $value)
+    public function __construct(public readonly \DateTimeImmutable $value)
     {
-        parent::__construct($this->value);
+        parent::__construct($value);
     }
 
     public function getAsFormat(string $format = 'Y-m-d H:i:s'): string
     {
-        return $this->value->getAsFormat($format);
+        return $this->value->format($format);
     }
 
     public static function now(): self
     {
-        return new self(new \DateTimeImmutable('now', 'Asia/Tokyo'));
+        return new self(new \DateTimeImmutable('now', new \DateTimeZone('Asia/Tokyo')));
+    }
+
+    public function __toString(): string
+    {
+        return $this->getAsFormat();
     }
 }
