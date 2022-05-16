@@ -11,8 +11,12 @@ use App\Infrastructure\Database\PositionRepositoryInterface;
 
 class PositionUseCase
 {
-    protected PositionRepositoryInterface $positionRepository;
-    protected ImageRepositoryInterface $imageRepository;
+    public function __construct(
+        protected PositionRepositoryInterface $positionRepository,
+        protected ImageRepositoryInterface $imageRepository
+    ){
+
+    }
 
     /**
      * $requestからPositionとImagePathsを生成し、データベースとストレージに保存する
