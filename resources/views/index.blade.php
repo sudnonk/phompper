@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s8 offset-s2 center">
-                    <p id="map_status">地図を読み込んでいます・・・</p>
+                    <p id="info">地図を読み込んでいます・・・</p>
                 </div>
                 <div class="col s12 l6 offset-l3 m10 offset-m1">
                     <div id="map"></div>
@@ -119,8 +119,6 @@
                 </div>
             </div>
             <div class="row">
-                @csrf
-                <input type="hidden" name="data" value="{}">
                 <button id="register" type="button">登録</button>
             </div>
         </form>
@@ -138,10 +136,4 @@
 @section('js-tail')
     <script src="https://maps.googleapis.com/maps/api/js?key={{config('googlemap.api-key')}}&v=weekly"></script>
     <script src="{{asset('/js/main.js')}}"></script>
-    <script src="{{asset('/js/googlemaps.js')}}"></script>
-    <script src="{{asset('/js/register.js')}}"></script>
-    <script src="{{asset('/js/show.js')}}"></script>
-    <script>
-
-    </script>
 @endsection
