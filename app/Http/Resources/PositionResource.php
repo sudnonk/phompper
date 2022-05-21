@@ -20,14 +20,15 @@ class PositionResource extends JsonResource
      * @return array
      */
     #[ArrayShape([
-        'geoHash' => "mixed",
-        'type' => "mixed",
-        'note' => "mixed",
-        'lineNumber' => "mixed",
-        'buildingName' => "mixed",
-        'lineName' => "mixed",
-    ])]
-    public function toArray($request): array
+        'latitude' => "string",
+        'longitude' => "string",
+        'type' => "string",
+        'note' => "string|null",
+        'imageURLs' => "array",
+        'lineNumber' => "string|null",
+        'buildingName' => "string|null",
+        'lineName' => "string|null"
+    ])] public function toArray($request): array
     {
         /** @var Position $position */
         $position = $this->resource['position'];
@@ -57,7 +58,7 @@ class PositionResource extends JsonResource
 
         $data['imageURLs'] = [];
         foreach ($images as $image){
-            $data['imageURLs'][] = $image->url;
+            $data['imageURLs'][] = $image->value;
         }
 
         return $data;
