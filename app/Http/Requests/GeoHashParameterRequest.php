@@ -8,6 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class GeoHashParameterRequest extends FormRequest
 {
+    use NoRedirectFormRequestTrait;
+
     public function rules(): array
     {
         return [
@@ -15,8 +17,19 @@ class GeoHashParameterRequest extends FormRequest
         ];
     }
 
+    /**
+     * URLのパラメータをFormRequestのバリデーション対象にする
+     *
+     * @param mixed $keys
+     * @return array
+     */
+    public function all($keys = null)
+    {
+        return ["geoHash" => $this->route('geoHash')];
+    }
+
     public function getValidatedGeoHash(): GeoHash
     {
-        return new GeoHash($this->validated()['geoHash']);
+        return new GeoHash($this->validated()['geoHash'] ?? '');
     }
 }
