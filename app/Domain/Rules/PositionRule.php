@@ -10,10 +10,11 @@ use App\Domain\ValueObject\Position\Longitude;
 use App\Domain\ValueObject\Position\PositionNote;
 use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
+use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 use JetBrains\PhpStorm\Pure;
 
-class PositionRule implements Rule
+class PositionRule implements Rule, ImplicitRule
 {
     protected ?PositionType $type;
     protected string $class;

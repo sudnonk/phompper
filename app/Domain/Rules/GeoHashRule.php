@@ -3,17 +3,19 @@
 namespace App\Domain\Rules;
 
 use App\Domain\ValueObject\Position\GeoHash;
+use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 
-final class GeoHashRule implements Rule
+class GeoHashRule implements Rule, ImplicitRule
 {
     public function passes($attribute, $value): bool
     {
         if (!is_string($value)) {
             return false;
         }
-        //GeoHashで使用するBase32では、a,i,l,o以外の小文字のアルファベットと0-9の計32文字を使うらしい
-        if(preg_match('/^([0-9]|[b-h]|[j-k]|[m-n]|[p-z])+$/',$value) !== 1){
+
+        $expression = sprintf('/^([0-9]|[b-h]|[j-k]|[m-n]|[p-z]){%d}$/', GeoHash::PRECISION);
+        if (preg_match($expression, $value) !== 1) {
             return false;
         }
         try {
