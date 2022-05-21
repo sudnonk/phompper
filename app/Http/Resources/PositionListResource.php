@@ -16,9 +16,9 @@ class PositionListResource extends JsonResource
         foreach ($positions as $position) {
             $datum = [
                 'geoHash'=>$position->geoHash->value,
-                'latitude' => $position->geoHash->latitude,
-                'longitude' => $position->geoHash->longitude,
-                'type' => $position->type->value
+                'latitude' => $position->geoHash->latitude->value,
+                'longitude' => $position->geoHash->longitude->value,
+                'type' => $position->type->value,
             ];
 
             $data[] = $datum;
