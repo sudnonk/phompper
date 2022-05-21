@@ -18,8 +18,3 @@ Route::get('/', function () {
     return view('index');
 })->name('index');
 
-Route::get('/position/list', [PositionController::class, 'list'])->name('position.list');
-Route::get('/position/{geoHash?}', [PositionController::class, 'show'])->name('position.show');
-Route::post('/position/store', [PositionController::class, 'store'])->name('position.store');
-Route::delete('/position/delete/{geoHash?}', [PositionController::class, 'destroy'])->name('position.destroy');
-

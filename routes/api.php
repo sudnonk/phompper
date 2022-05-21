@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\PositionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/position/list', [PositionController::class, 'list'])->name('position.list');
+Route::post('/position/store', [PositionController::class, 'store'])->name('position.store');
+Route::delete('/position/delete/{geoHash?}', [PositionController::class, 'destroy'])->name('position.destroy');
+Route::get('/position/{geoHash?}', [PositionController::class, 'show'])->name('position.show');
