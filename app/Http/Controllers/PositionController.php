@@ -21,15 +21,21 @@ class PositionController extends Controller
      */
     public function store(StorePositionRequest $request): JsonResponse
     {
+        if ($request->isValidationFailed()) {
+            return new JsonResponse($request->getValidationErrorMsg()->toArray(), 400);
+        }
+
         /** @var PositionUseCase $useCase */
         $useCase = app(PositionUseCase::class);
         try {
             $position = $useCase->createPosition($request);
             $images = $useCase->findImageURLs($position->geoHash);
         } catch (ValidatorInvalidArgumentException $e) {
-            return new JsonResponse($e->getErrors()->toArray(), 401);
+            return new JsonResponse($e->getErrors()->toArray(), 400);
         } catch (\ValueError|\InvalidArgumentException $e) {
-            return new JsonResponse($e->getMessage(), 401);
+            return new JsonResponse($e->getMessage(), 400);
+        } catch (\Error|\Exception $e) {
+            return new JsonResponse($e->getMessage(), 500);
         }
 
         return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 201);
@@ -43,7 +49,11 @@ class PositionController extends Controller
     public function list(): JsonResponse
     {
         $useCase = app(PositionUseCase::class);
-        $positions = $useCase->findAll();
+        try {
+            $positions = $useCase->findAll();
+        } catch (\Exception|\Error $e) {
+            return new JsonResponse($e->getMessage(), 500);
+        }
         return new JsonResponse(new PositionListResource($positions), 200);
     }
 
@@ -55,25 +65,39 @@ class PositionController extends Controller
      */
     public function show(GeoHashParameterRequest $request): JsonResponse
     {
-        $geoHash = $request->getValidatedGeoHash();
+        if ($request->isValidationFailed()) {
+            return new JsonResponse($request->getValidationErrorMsg()->toArray(), 400);
+        }
 
         $useCase = app(PositionUseCase::class);
-        $position = $useCase->find($geoHash->value);
-        $images = $useCase->findImageURLs($geoHash);
+        try {
+            $geoHash = $request->getValidatedGeoHash();
+            $position = $useCase->find($geoHash);
+            $images = $useCase->findImageURLs($geoHash);
+        } catch (\Exception|\Error $e) {
+            return new JsonResponse($e->getMessage(), 500);
+        }
         return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 200);
     }
 
 
     /**
      * @param GeoHashParameterRequest $request
-     * @return Response
+     * @return Response|JsonResponse
      */
-    public function destroy(GeoHashParameterRequest $request): Response
+    public function destroy(GeoHashParameterRequest $request): Response|JsonResponse
     {
-        $geoHash = $request->getValidatedGeoHash();
-        $useCase = app(PositionUseCase::class);
-        $position = $useCase->find($geoHash);
-        $useCase->delete($position);
+        if ($request->isValidationFailed()) {
+            return new JsonResponse($request->getValidationErrorMsg()->toArray(), 400);
+        }
+        try {
+            $geoHash = $request->getValidatedGeoHash();
+            $useCase = app(PositionUseCase::class);
+            $position = $useCase->find($geoHash);
+            $useCase->delete($position);
+        } catch (\Exception|\Error $e) {
+            return new JsonResponse($e->getMessage(), 500);
+        }
 
         return new Response(null, 204);
     }

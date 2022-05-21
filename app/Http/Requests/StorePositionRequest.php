@@ -7,7 +7,6 @@ use App\Domain\Entity\Position\Position;
 use App\Domain\Rules\PositionRule;
 use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -16,6 +15,8 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class StorePositionRequest extends FormRequest
 {
+    use NoRedirectFormRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -108,25 +109,5 @@ class StorePositionRequest extends FormRequest
             $images[$tmpPath] = ImagePath::createFromUploadedFile($position, $file);
         }
         return $images;
-    }
-
-    /**
-     * バリデーションに失敗しても何もしない
-     *
-     * @param Validator $validator
-     * @return void
-     */
-    protected function failedValidation(Validator $validator): void
-    {
-    }
-
-    /**
-     * このリクエストのバリデータを外に出す
-     *
-     * @return Validator
-     */
-    public function getValidator(): Validator
-    {
-        return $this->validator;
     }
 }
