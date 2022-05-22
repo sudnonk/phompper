@@ -19,3 +19,7 @@ mix.typeScript([
     'resources/ts/phompper_util.ts'
 ], 'public/js');
 
+if (mix.inProduction()) {
+    mix.version();
+}
+
