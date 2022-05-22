@@ -9,7 +9,8 @@
         <div class="container">
             <p class="row">
                 <span id="info" class="col s8 center">地図を読み込んでいます・・・</span>
-                <button id="reload" class="btn waves-effect waves-light col s2 right">更新</button>
+                <button id="reload" class="btn waves-effect waves-light col s2">更新</button>
+                <button id="location" class="btn waves-effect waves-light col s2">現在地</button>
             </p>
             <div class="row">
                 <div class="col s12 l6 offset-l3 m10 offset-m1">

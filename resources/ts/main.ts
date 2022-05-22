@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         PhompperUtil.getHrefValue("showURL"),
         PhompperUtil.getHrefValue("deleteURL")
     );
+    await phompper.updateCurrentLocation();
     await phompper.showPositions();
     document.getElementById('register')?.addEventListener('click', () => {
         phompper.submitFormData();
@@ -18,4 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('reload')?.addEventListener('click', async () => {
         await phompper.showPositions();
     });
+    document.getElementById('location')?.addEventListener('click', () => {
+        phompper.updateCurrentLocation();
+    })
 });

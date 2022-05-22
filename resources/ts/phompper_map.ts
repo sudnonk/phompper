@@ -15,7 +15,7 @@ export default class PhompperMap {
     static defPos: LatLng = new LatLng({lat: 35.681217751538604, lng: 139.76709999359113});
 
     constructor() {
-        const initialPos = this.getUserLocation();
+        const initialPos = PhompperMap.defPos;
         this.map?.panTo(initialPos);
         this.map?.addListener("click", (mapMouseEvent: MapMouseEvent) => {
             this.moveToPoint(mapMouseEvent);
@@ -26,7 +26,6 @@ export default class PhompperMap {
 
         this.reMarker(initialPos);
         console.log("Google Mapsを読み込みました。");
-        this.watchLocation();
     }
 
     initGMap(): GMap | null {
@@ -83,42 +82,38 @@ export default class PhompperMap {
      * ブラウザの地理的位置を取得する
      * @return google.maps.LatLng
      */
-    getUserLocation(): LatLng {
+    getUserLocation(): Promise<LatLng> {
         PhompperUtil.showInfo("現在位置を取得しています・・・");
-        let pos = PhompperMap.defPos;
-        const geolocation = navigator.geolocation;
 
-        const successCallback = (position: GeolocationPosition) => {
-            pos = new LatLng({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            });
-            PhompperUtil.showInfo("現在位置を取得しました");
-        }
-        const errorCallback = () => {
-            PhompperUtil.showInfo("現在位置の取得に失敗しました。東京を表示します。");
-        }
         const option = {
             enableHighAccuracy: true,
             timeout: 5000,
             maximumAge: 0
         }
 
-        geolocation.getCurrentPosition(successCallback, errorCallback, option);
-        return pos;
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(pos => {
+                PhompperUtil.showInfo("現在位置を取得しました");
+                console.log(pos.coords);
+                resolve(new LatLng({
+                    lat: pos.coords.latitude,
+                    lng: pos.coords.longitude
+                }));
+            }, () => {
+                PhompperUtil.showInfo("現在位置の取得に失敗しました。東京を表示します。");
+                reject(PhompperMap.defPos);
+            }, option);
+        });
     }
 
-    watchLocation(): void {
-        navigator.geolocation.watchPosition(pos => {
-            PhompperUtil.showInfo("現在位置：" + pos.coords.latitude);
-            this.map?.panTo(new LatLng(pos.coords.latitude, pos.coords.longitude));
-        }, error => {
-            console.warn(error);
-        }, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        });
+    /**
+     * 現在値を更新し、その場所にピンを立てる
+     */
+    async updateCurrentPosition(): Promise<void> {
+        const pos = await this.getUserLocation();
+        console.log(pos.toString());
+        this.map?.panTo(pos);
+        this.reMarker(pos);
     }
 
     /**

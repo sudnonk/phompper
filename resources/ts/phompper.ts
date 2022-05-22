@@ -38,6 +38,9 @@ export default class Phompper {
     ) {
     }
 
+    async updateCurrentLocation(): Promise<void> {
+        await this.map.updateCurrentPosition();
+    }
 
     /**
      * そのgeoHashのPositionの詳細情報をデータベースから取得する。
