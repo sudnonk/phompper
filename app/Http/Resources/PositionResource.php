@@ -20,6 +20,7 @@ class PositionResource extends JsonResource
      * @return array
      */
     #[ArrayShape([
+        'geoHash' => "string",
         'latitude' => "string",
         'longitude' => "string",
         'type' => "string",
@@ -27,7 +28,7 @@ class PositionResource extends JsonResource
         'imageURLs' => "array",
         'lineNumber' => "string|null",
         'buildingName' => "string|null",
-        'lineName' => "string|null"
+        'lineName' => "string|null",
     ])] public function toArray($request): array
     {
         /** @var Position $position */
@@ -35,8 +36,9 @@ class PositionResource extends JsonResource
         /** @var ImageURL[] $images */
         $images = $this->resource['images'];
         $data = [
-            'latitude' => $position->geoHash->latitude,
-            'longitude' => $position->geoHash->longitude,
+            'geoHash' => $position->geoHash->value,
+            'latitude' => $position->geoHash->latitude->value,
+            'longitude' => $position->geoHash->longitude->value,
             'type' => $position->type->value,
             'note' => $position->positionNote->value,
         ];
@@ -57,7 +59,7 @@ class PositionResource extends JsonResource
         }
 
         $data['imageURLs'] = [];
-        foreach ($images as $image){
+        foreach ($images as $image) {
             $data['imageURLs'][] = $image->value;
         }
 
