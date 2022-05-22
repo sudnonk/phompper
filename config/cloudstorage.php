@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'auth_credential' => env(),
-    'bucket_name'=>env(),
-    'project_id'=>env(),
+    'auth_credential' => env("GOOGLE_AUTH_CREDENTIAL"),
+    'bucket_name'=>env("BUCKET_NAME"),
+    'project_id'=>env("GOOGLE_PROJECT_ID"),
 ];
