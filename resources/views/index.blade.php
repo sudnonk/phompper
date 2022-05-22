@@ -37,10 +37,42 @@
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs" id="position-type">
-                        <li class="tab col s3"><a href="#denshin" class="active green-text text-darken-3">電信柱</a></li>
-                        <li class="tab col s3"><a href="#denchu" class="green-text text-darken-3">電柱</a></li>
-                        <li class="tab col s3"><a href="#building" class="green-text text-darken-3">局舎</a></li>
-                        <li class="tab col s3"><a href="#other" class="green-text text-darken-3">その他</a></li>
+                        <li class="tab col s3">
+                            <a href="#denshin" class="active green-text text-darken-3">
+                                電信柱
+                                <span>
+                                    <img src="https://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="電信柱アイコン"
+                                         class="pin-icon">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="tab col s3">
+                            <a href="#denchu" class="green-text text-darken-3">
+                                電柱
+                                <span>
+                                    <img src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="電柱アイコン"
+                                         class="pin-icon">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="tab col s3">
+                            <a href="#building" class="green-text text-darken-3">
+                                局舎
+                                <span>
+                                    <img src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="局舎アイコン"
+                                         class="pin-icon">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="tab col s3">
+                            <a href="#other" class="green-text text-darken-3">
+                                その他
+                                <span>
+                                    <img src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png" alt="その他アイコン"
+                                         class="pin-icon">
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

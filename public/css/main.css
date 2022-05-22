@@ -7,3 +7,8 @@
 a {
     color: #00f0ee;
 }
+
+.pin-icon{
+    height: 1em;
+    max-width: 1em;
+}
