@@ -8,7 +8,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         PhompperUtil.getInputValue("token"),
         PhompperUtil.getHrefValue("submitURL"),
         PhompperUtil.getHrefValue("listURL"),
-        PhompperUtil.getHrefValue("showURL")
+        PhompperUtil.getHrefValue("showURL"),
+        PhompperUtil.getHrefValue("deleteURL")
     );
     await phompper.showPositions();
+    document.getElementById('register')?.addEventListener('click', () => {
+        phompper.submitFormData();
+    });
+    document.getElementById('reload')?.addEventListener('click', async () => {
+        await phompper.showPositions();
+    });
 });
