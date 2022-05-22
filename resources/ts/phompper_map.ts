@@ -25,7 +25,8 @@ export default class PhompperMap {
         });
 
         this.reMarker(initialPos);
-        console.log("Google Mapsを読み込みました。")
+        console.log("Google Mapsを読み込みました。");
+        this.watchLocation();
     }
 
     initGMap(): GMap | null {
@@ -105,6 +106,18 @@ export default class PhompperMap {
 
         geolocation.getCurrentPosition(successCallback, errorCallback, option);
         return pos;
+    }
+
+    watchLocation(): void {
+        navigator.geolocation.watchPosition(pos => {
+            this.map?.panTo(new LatLng(pos.coords.latitude, pos.coords.longitude));
+        }, error => {
+            console.warn(error);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
     }
 
     /**
