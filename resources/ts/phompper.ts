@@ -28,6 +28,7 @@ interface PositionObj {
 export default class Phompper {
     map: PhompperMap = new PhompperMap();
     infoWindow: InfoWindow | null = null;
+    markers: Marker[] = [];
 
     constructor(
         private token: string,
@@ -141,6 +142,13 @@ export default class Phompper {
             });
     }
 
+    closeAllMarkers(): void {
+        this.markers.forEach(marker => {
+            marker.setMap(null);
+        });
+        this.markers = [];
+    }
+
     /**
      * データベースにすでに登録されている地点にマーカーを設置する
      */
@@ -154,6 +162,7 @@ export default class Phompper {
         }
         PhompperUtil.showInfo("地点一覧を取得しました。地図上に描画しています。");
 
+        this.closeAllMarkers();
         data.forEach(datum => {
             let pos = new LatLng({lat: datum.latitude, lng: datum.longitude})
             let icon;
@@ -182,6 +191,7 @@ export default class Phompper {
             marker.addListener('click', async () => {
                 await this.showPosition(marker, datum.geoHash)
             });
+            this.markers?.push(marker);
         })
         PhompperUtil.showInfo("地点一覧を表示しました。");
     }
