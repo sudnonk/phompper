@@ -110,6 +110,7 @@ export default class PhompperMap {
 
     watchLocation(): void {
         navigator.geolocation.watchPosition(pos => {
+            PhompperUtil.showInfo("現在位置：" + pos.coords.latitude);
             this.map?.panTo(new LatLng(pos.coords.latitude, pos.coords.longitude));
         }, error => {
             console.warn(error);
