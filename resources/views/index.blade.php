@@ -7,10 +7,11 @@
 @section('content')
     <section>
         <div class="container">
+            <p class="row">
+                <span id="info" class="col s8 center">地図を読み込んでいます・・・</span>
+                <button id="reload" class="btn waves-effect waves-light col s2 right">更新</button>
+            </p>
             <div class="row">
-                <div class="col s8 offset-s2 center">
-                    <p id="info">地図を読み込んでいます・・・</p>
-                </div>
                 <div class="col s12 l6 offset-l3 m10 offset-m1">
                     <div id="map"></div>
                 </div>
@@ -119,16 +120,16 @@
                 </div>
             </div>
             <div class="row">
-                <button id="register" type="button">登録</button>
+                <button id="register" type="button" class="btn waves-effect waves-light col s12">登録</button>
             </div>
         </form>
     </section>
-    <a role="button" class="btn-floating btn-large waves-effect green darken-2" href="#">+</a>
 
     <div style="display: none">
         <a href="{{route('position.store')}}" id="submitURL"></a>
         <a href="{{route('position.list')}}" id="listURL"></a>
         <a href="{{route('position.show')}}" id="showURL"></a>
+        <a href="{{route('position.destroy')}}" id="deleteURL"></a>
         <input type="hidden" value="{{csrf_token()}}" id="token">
     </div>
 @endsection
