@@ -90,4 +90,12 @@ export default class PhompperForm {
 
         return data;
     }
+
+    static copyInputForDenchuAndDenshin(from: string, to: string): void {
+        const input = PhompperUtil.getInputValue(from);
+        const target = document.getElementById(to);
+        if (target instanceof HTMLInputElement) {
+            target.value = input;
+        }
+    }
 }

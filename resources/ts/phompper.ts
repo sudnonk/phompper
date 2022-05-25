@@ -274,4 +274,8 @@ export default class Phompper {
             return;
         }
     }
+
+    copyInputForDenchuAndDenshin(from: string, to: string): void {
+        PhompperForm.copyInputForDenchuAndDenshin(from, to);
+    }
 }
