@@ -9,8 +9,11 @@ interface PositionRepositoryInterface
 {
     public function savePosition(Position $position): Position;
 
-    public function find(GeoHash $geoHash): Position;
+    public function find(GeoHash $geoHash): ?Position;
 
+    /**
+     * @return array<string,Position>
+     */
     public function findAll(): array;
 
     public function delete(GeoHash $geoHash): void;

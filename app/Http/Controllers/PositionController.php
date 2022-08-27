@@ -77,7 +77,11 @@ class PositionController extends Controller
         } catch (\Exception|\Error $e) {
             return new JsonResponse($e->getMessage(), 500);
         }
-        return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 200);
+        if ($position === null) {
+            return new JsonResponse("Not found", 404);
+        } else {
+            return new JsonResponse(new PositionResource(['position' => $position, 'images' => $images]), 200);
+        }
     }
 
 

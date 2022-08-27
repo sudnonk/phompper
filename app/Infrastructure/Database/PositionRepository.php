@@ -9,7 +9,6 @@ use App\Domain\Entity\Position\OtherPosition;
 use App\Domain\Entity\Position\Position;
 use App\Domain\Entity\Position\PositionDetail;
 use App\Domain\ValueObject\Position\GeoHash;
-use App\Domain\ValueObject\Position\PositionType;
 use Illuminate\Support\Facades\DB;
 
 class PositionRepository implements PositionRepositoryInterface
@@ -23,21 +22,17 @@ class PositionRepository implements PositionRepositoryInterface
     public function savePosition(Position $position): Position
     {
         foreach ($position->getPositionDetails() as $positionDetail) {
-            switch ($positionDetail->type) {
-                case PositionType::DENSHIN:
-                    /** @var DenshinPosition $positionDetail */
+            switch (true) {
+                case $positionDetail instanceof DenshinPosition:
                     $this->saveDenshinPosition($positionDetail);
                     break;
-                case PositionType::DENCHU:
-                    /** @var DenchuPosition $positionDetail */
+                case $positionDetail instanceof DenchuPosition:
                     $this->saveDenchuPosition($positionDetail);
                     break;
-                case PositionType::BUILDING:
-                    /** @var BuildingPosition $positionDetail */
+                case $positionDetail instanceof BuildingPosition:
                     $this->saveBuildingPosition($positionDetail);
                     break;
-                case PositionType::OTHER:
-                    /** @var OtherPosition $positionDetail */
+                case $positionDetail instanceof OtherPosition:
                     $this->saveOtherPosition($positionDetail);
                     break;
             }
@@ -100,9 +95,9 @@ class PositionRepository implements PositionRepositoryInterface
 
     /**
      * @param GeoHash $geoHash
-     * @return Position
+     * @return Position|null
      */
-    public function find(GeoHash $geoHash): Position
+    public function find(GeoHash $geoHash): ?Position
     {
         $position = new Position($geoHash);
 
@@ -126,7 +121,12 @@ class PositionRepository implements PositionRepositoryInterface
             );
         }
 
-        return $position;
+        //PositionDetailsが無いPositionは存在しない
+        if (count($position->getPositionDetails()) === 0) {
+            return null;
+        } else {
+            return $position;
+        }
     }
 
     public function findAll(): array
