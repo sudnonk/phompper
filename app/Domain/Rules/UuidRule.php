@@ -10,6 +10,9 @@ class UuidRule implements Rule, ImplicitRule
 {
     public function passes($attribute, $value): bool
     {
+        if ($value instanceof Uuid) {
+            $value = $value->value;
+        }
         if (!is_string($value)) {
             return false;
         }
