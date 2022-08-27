@@ -32,7 +32,7 @@ class PositionUseCase
         if ($position === null) {
             $position = new Position($geoHash, []);
         }
-        $position = $request->fillPosition($position);
+        $position = $request->fillPositionDetail($position);
 
         $images = $request->makeImages($position);
 
