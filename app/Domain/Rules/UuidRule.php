@@ -2,7 +2,7 @@
 
 namespace App\Domain\Rules;
 
-use App\Domain\ValueObject\Position\PositionId;
+use App\Domain\ValueObject\Uuid;
 use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -14,11 +14,11 @@ class UuidRule implements Rule, ImplicitRule
             return false;
         }
 
-        return PositionId::isValid($value);
+        return Uuid::isValid($value);
     }
 
     public function message(): string
     {
-        return ':inputは正しい地点IDでは有りません。';
+        return ':inputは正しいUUIDでは有りません。';
     }
 }
