@@ -6,7 +6,7 @@ use App\Domain\ValueObject\Position\PositionId;
 use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 
-class PositionIdRule implements Rule, ImplicitRule
+class UuidRule implements Rule, ImplicitRule
 {
     public function passes($attribute, $value): bool
     {
