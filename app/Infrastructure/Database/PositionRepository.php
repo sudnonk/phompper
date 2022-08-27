@@ -24,10 +24,8 @@ class PositionRepository implements PositionRepositoryInterface
         foreach ($position->getPositionDetails() as $positionDetail) {
             switch (true) {
                 case $positionDetail instanceof DenshinPosition:
-                    $this->saveDenshinPosition($positionDetail);
-                    break;
                 case $positionDetail instanceof DenchuPosition:
-                    $this->saveDenchuPosition($positionDetail);
+                    $this->saveDenchuDenshinPosition($positionDetail);
                     break;
                 case $positionDetail instanceof BuildingPosition:
                     $this->saveBuildingPosition($positionDetail);
@@ -40,26 +38,13 @@ class PositionRepository implements PositionRepositoryInterface
         return $position;
     }
 
-    public function saveDenchuPosition(DenchuPosition $position): PositionDetail
+    //同じUUIDのPositionDetailは不変なので、idがconflictしたらignoreして良い
+    public function saveDenchuDenshinPosition(DenchuPosition|DenshinPosition $position): PositionDetail
     {
-        DB::table(PositionRepository::TABLE_NAME)->insert([
-            'id' => $position->id->value,
+        DB::table(PositionRepository::TABLE_NAME)->insertOrIgnore([
+            'id' => $position->positionId->value->value,
             'geohash' => $position->geoHash->value,
-            'type' => $position->type->value,
-            'line' => $position->lineName->value,
-            'number' => $position->lineNumber->value,
-            'note' => $position->positionNote->value,
-            'created_at' => $position->createdAt->getAsFormat(),
-        ]);
-        return $position;
-    }
-
-    public function saveDenshinPosition(DenshinPosition $position): PositionDetail
-    {
-        DB::table(PositionRepository::TABLE_NAME)->insert([
-            'id' => $position->id->value,
-            'geohash' => $position->geoHash->value,
-            'type' => $position->type->value,
+            'type' => $position->positionType->value,
             'line' => $position->lineName->value,
             'number' => $position->lineNumber->value,
             'note' => $position->positionNote->value,
@@ -70,10 +55,10 @@ class PositionRepository implements PositionRepositoryInterface
 
     public function saveBuildingPosition(BuildingPosition $position): PositionDetail
     {
-        DB::table(PositionRepository::TABLE_NAME)->insert([
-            'id' => $position->id->value,
+        DB::table(PositionRepository::TABLE_NAME)->insertOrIgnore([
+            'id' => $position->positionId->value->value,
             'geohash' => $position->geoHash->value,
-            'type' => $position->type->value,
+            'type' => $position->positionType->value,
             'name' => $position->buildingName->value,
             'note' => $position->positionNote->value,
             'created_at' => $position->createdAt->getAsFormat(),
@@ -83,10 +68,10 @@ class PositionRepository implements PositionRepositoryInterface
 
     public function saveOtherPosition(OtherPosition $position): PositionDetail
     {
-        DB::table(PositionRepository::TABLE_NAME)->insert([
-            'id' => $position->id->value,
+        DB::table(PositionRepository::TABLE_NAME)->insertOrIgnore([
+            'id' => $position->positionId->value->value,
             'geohash' => $position->geoHash->value,
-            'type' => $position->type->value,
+            'type' => $position->positionType->value,
             'note' => $position->positionNote->value,
             'created_at' => $position->createdAt->getAsFormat(),
         ]);
