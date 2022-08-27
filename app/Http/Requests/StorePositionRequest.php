@@ -87,12 +87,12 @@ class StorePositionRequest extends FormRequest
      * @param Position $position 追加先のPosition
      * @return Position 追加されたPosition
      */
-    public function fillPosition(Position $position): Position
+    public function fillPositionDetail(Position $position): Position
     {
         $values = $this->validated();
 
         $positionDetail = PositionDetail::createPositionDetailFromString(
-            positionid: null,
+            positionId: null,
             geoHash: $position->geoHash,
             positionType: $values['type'],
             lineName: $values['line'] ?? null,
