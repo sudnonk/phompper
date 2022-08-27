@@ -6,8 +6,10 @@ use App\Domain\Entity\Image\Image;
 use App\Domain\Entity\Position\Position;
 use App\Domain\Entity\Position\PositionDetail;
 use App\Domain\Rules\PositionRule;
+use App\Domain\ValueObject\Position\GeoHash;
+use App\Domain\ValueObject\Position\Latitude;
+use App\Domain\ValueObject\Position\Longitude;
 use App\Domain\ValueObject\Position\PositionType;
-use App\Exceptions\ValidatorInvalidArgumentException;
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -37,13 +39,11 @@ class StorePositionRequest extends FormRequest
     #[ArrayShape([
         'lat' => "string[]",
         'long' => "string[]",
-        'details' => [
-            'type' => "string[]",
-            'line' => "Rule[]",
-            'number' => "Rule[]",
-            'name' => "Rule[]",
-            'note' => "Rule[]",
-        ],
+        'type' => "string[]",
+        'line' => "Rule[]",
+        'number' => "Rule[]",
+        'name' => "Rule[]",
+        'note' => "Rule[]",
     ])] public function rules(): array
     {
         $type = PositionType::tryFrom($this->request->get('type'));
@@ -56,47 +56,52 @@ class StorePositionRequest extends FormRequest
                 'required',
                 PositionRule::longRule(),
             ],
-            'details' => [
-                'type' => [
-                    'required',
-                    PositionRule::typeRule(),
-                ],
-                'line' => [
-                    PositionRule::nameRule($type),
-                ],
-                'number' => [
-                    PositionRule::numberRule($type),
-                ],
-                'name' => [
-                    PositionRule::buildingRule($type),
-                ],
-                'note' => [
-                    PositionRule::noteRule($type),
-                ],
+            'type' => [
+                'required',
+                PositionRule::typeRule(),
+            ],
+            'line' => [
+                PositionRule::nameRule($type),
+            ],
+            'number' => [
+                PositionRule::numberRule($type),
+            ],
+            'name' => [
+                PositionRule::buildingRule($type),
+            ],
+            'note' => [
+                PositionRule::noteRule($type),
             ],
         ];
     }
 
-    /**
-     * @return Position
-     * @throws ValidatorInvalidArgumentException
-     */
-    public function makePosition(): Position
+    public function getGeoHash(): GeoHash
     {
         $values = $this->validated();
-        $position = Position::fromLatLng(latitude: $values["lat"], longitude: $values["long"]);
-        foreach ($values["details"] as $detail) {
-            $positionDetail = PositionDetail::createPositionDetailFromString(
-                positionid: null,
-                geoHash: $position->geoHash,
-                positionType: $detail['type'],
-                lineName: $detail['line'] ?? null,
-                lineNumber: $detail['number'] ?? null,
-                buildingName: $detail['name'] ?? null,
-                positionNote: $detail['note']
-            );
-            $position->addPositionDetail($positionDetail);
-        }
+        return GeoHash::fromLatLng(new Latitude($values["lat"]), new Longitude($values["long"]));
+    }
+
+    /**
+     * 入力された値からPositionDetailを作成し、Positionに追加する
+     *
+     * @param Position $position 追加先のPosition
+     * @return Position 追加されたPosition
+     */
+    public function fillPosition(Position $position): Position
+    {
+        $values = $this->validated();
+
+        $positionDetail = PositionDetail::createPositionDetailFromString(
+            positionid: null,
+            geoHash: $position->geoHash,
+            positionType: $values['type'],
+            lineName: $values['line'] ?? null,
+            lineNumber: $values['number'] ?? null,
+            buildingName: $values['name'] ?? null,
+            positionNote: $values['note']
+        );
+        $position->addPositionDetail($positionDetail);
+
         return $position;
     }
 

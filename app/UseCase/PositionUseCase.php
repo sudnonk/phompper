@@ -14,7 +14,7 @@ class PositionUseCase
     public function __construct(
         protected PositionRepositoryInterface $positionRepository,
         protected ImageRepositoryInterface $imageRepository
-    ){
+    ) {
 
     }
 
@@ -26,7 +26,14 @@ class PositionUseCase
      */
     public function createPosition(StorePositionRequest $request): Position
     {
-        $position = $request->makePosition();
+        $geoHash = $request->getGeoHash();
+        $position = $this->find($geoHash);
+        //そのGeoHashのPositionが存在しなければ作成する。すでに存在している場合はPositionDetailの追加になる
+        if ($position === null) {
+            $position = new Position($geoHash, []);
+        }
+        $position = $request->fillPosition($position);
+
         $images = $request->makeImages($position);
 
         $this->positionRepository->savePosition($position);
@@ -41,9 +48,9 @@ class PositionUseCase
      * $geoHashのPositionをデータベースから取得し、Positionオブジェクトを生成して返す
      *
      * @param GeoHash $geoHash
-     * @return Position
+     * @return Position|null
      */
-    public function find(GeoHash $geoHash): Position
+    public function find(GeoHash $geoHash): ?Position
     {
         return $this->positionRepository->find($geoHash);
     }

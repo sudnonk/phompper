@@ -18,10 +18,14 @@ interface PositionObj {
     latitude: number,
     longitude: number,
     type: string,
-    note: string | null,
-    lineNumber: string | null,
-    lineName: string | null,
-    buildingName: string | null,
+    details: [
+        {
+            note: string | null,
+            lineNumber: string | null,
+            lineName: string | null,
+            buildingName: string | null,
+        }
+    ],
     imageURLs: string[]
 }
 
@@ -67,19 +71,23 @@ export default class Phompper {
 
     showInfoWindow(marker: Marker, posData: PositionObj): void {
         let content_by_type = "";
-        switch (posData.type) {
-            case "電信柱":
-            case "電柱":
-                content_by_type += '<li>' + posData.lineName + ' ' + posData.lineNumber + '</li>';
-                break;
-            case "通信ビル":
-                content_by_type += '<li>' + posData.buildingName + '</li>';
-                break;
-        }
+        posData.details.forEach(function (detail) {
+            switch (posData.type) {
+                case "電信柱":
+                case "電柱":
+                    content_by_type += '<li>' + detail.lineName + ' ' + detail.lineNumber + '</li>';
+                    break;
+                case "通信ビル":
+                    content_by_type += '<li>' + detail.buildingName + '</li>';
+                    break;
+            }
+            content_by_type += '<li>' + detail.note + '</li>';
+        })
+
 
         let content_img = "";
         posData.imageURLs.forEach(url => {
-            content_img += "<img src='" + url + "' alt='image' class='position-img'>";
+            content_img += "<img src='" + url + "' alt='image of " + posData.geoHash + "' class='position-img'>";
         });
 
         const content =
@@ -88,7 +96,6 @@ export default class Phompper {
             '<li>' + posData.latitude + 'N ' + posData.longitude + 'E</li>' +
             '<li>' + posData.type + '</li>' +
             content_by_type +
-            '<li>' + posData.note + '</li>' +
             '</ul>' +
             content_img +
             '<button id="infowindow-delete">削除</button>' +
