@@ -2,132 +2,62 @@
 
 namespace App\Domain\Entity\Position;
 
-use App\Domain\ValueObject\DateTimeImmutable;
-use App\Domain\ValueObject\Position\BuildingName;
 use App\Domain\ValueObject\Position\GeoHash;
 use App\Domain\ValueObject\Position\Latitude;
-use App\Domain\ValueObject\Position\LineName;
-use App\Domain\ValueObject\Position\LineNumber;
 use App\Domain\ValueObject\Position\Longitude;
-use App\Domain\ValueObject\Position\PositionId;
-use App\Domain\ValueObject\Position\PositionNote;
-use App\Domain\ValueObject\Position\PositionType;
-use App\Exceptions\ValidatorInvalidArgumentException;
 
-abstract class Position
+final class Position
 {
-    public readonly PositionId $id;
-    /** @var PositionType $type この地点の種別 */
-    public readonly PositionType $type;
-    public readonly DateTimeImmutable $createdAt;
+    public readonly GeoHash $geoHash;
+    /** @var PositionDetail[] $positionDetails */
+    protected array $positionDetails;
 
-    protected function __construct(
-        PositionId $positionId,
+    /**
+     * @param GeoHash               $geoHash
+     * @param array<PositionDetail> $positionDetails
+     */
+    public function __construct(
         GeoHash $geoHash,
-        PositionNote $positionNote,
-        PositionType $positionType,
-        DateTimeImmutable $createdAt = null
+        array $positionDetails = []
     ) {
-        $this->id = $positionId;
-        $this->type = $positionType;
-        $this->createdAt = $createdAt ?? DateTimeImmutable::now();
+        $this->geoHash = $geoHash;
+        $this->positionDetails = $positionDetails;
+    }
+
+    public static function fromString(string $geoHash, array $positionDetails = []): self
+    {
+        return new self(new GeoHash($geoHash), $positionDetails);
     }
 
     /**
-     * 新規登録時に文字列からPositionを作る
-     *
-     * @param string      $latitude
-     * @param string      $longitude
-     * @param string      $positionType
-     * @param string|null $lineName
-     * @param string|null $lineNumber
-     * @param string|null $buildingName
-     * @param string|null $positionNote
-     * @return Position
-     * @throws ValidatorInvalidArgumentException
+     * @param Latitude         $latitude
+     * @param Longitude        $longitude
+     * @param PositionDetail[] $positionDetails
+     * @return static
      */
-    public static function createPosition(
-        string $latitude,
-        string $longitude,
-        string $positionType,
-        ?string $lineName,
-        ?string $lineNumber,
-        ?string $buildingName,
-        ?string $positionNote
-    ): Position {
-        $positionId = PositionId::generate();
-        $latitude = new Latitude($latitude);
-        $longitude = new Longitude($longitude);
-        $geohash = GeoHash::fromLatLng($latitude, $longitude);
-
-        $positionNote = new PositionNote($positionNote);
-        $positionType = PositionType::tryFromString($positionType);
-        return match ($positionType) {
-            PositionType::DENCHU => self::denchuFromString(id: $positionId, geoHash: $geohash, line: $lineName,
-                number: $lineNumber, note: $positionNote),
-            PositionType::DENSHIN => self::denshinFromString(id: $positionId, geoHash: $geohash, line: $lineName,
-                number: $lineNumber, note: $positionNote),
-            PositionType::BUILDING => self::buildingFromString(id: $positionId, geoHash: $geohash, name: $buildingName,
-                note: $positionNote),
-            PositionType::OTHER => self::otherFromString(id: $positionId, geoHash: $geohash, note: $positionNote),
-        };
+    public static function fromLatLng(Latitude $latitude, Longitude $longitude, array $positionDetails = []): self
+    {
+        $geoHash = GeoHash::fromLatLng($latitude, $longitude);
+        return new self($geoHash, $positionDetails);
     }
 
-    protected static function denchuFromString(
-        PositionId $id,
-        GeoHash $geoHash,
-        string $line,
-        string $number,
-        PositionNote $note
-    ): DenchuPosition {
-        return new DenchuPosition(
-            $id,
-            $geoHash,
-            new LineName($line),
-            new LineNumber($number),
-            $note
-        );
+    public function addPositionDetail(PositionDetail $positionDetail): self
+    {
+        $this->positionDetails[] = $positionDetail;
+        return $this;
     }
 
-    protected static function denshinFromString(
-        PositionId $id,
-        GeoHash $geoHash,
-        string $line,
-        string $number,
-        PositionNote $note
-    ): DenshinPosition {
-        return new DenshinPosition(
-            $id,
-            $geoHash,
-            new LineName($line),
-            new LineNumber($number),
-            $note
-        );
+    public function addPositionDetails(array $positionDetails): self
+    {
+        $this->positionDetails = array_merge($this->positionDetails, $positionDetails);
+        return $this;
     }
 
-    protected static function buildingFromString(
-        PositionId $id,
-        GeoHash $geoHash,
-        string $name,
-        PositionNote $note
-    ): BuildingPosition {
-        return new BuildingPosition(
-            $id,
-            $geoHash,
-            new BuildingName($name),
-            $note
-        );
-    }
-
-    protected static function otherFromString(
-        PositionId $id,
-        GeoHash $geoHash,
-        PositionNote $note
-    ): OtherPosition {
-        return new OtherPosition(
-            $id,
-            $geoHash,
-            $note
-        );
+    /**
+     * @return PositionDetail[]
+     */
+    public function getPositionDetails(): array
+    {
+        return $this->positionDetails;
     }
 }

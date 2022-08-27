@@ -7,9 +7,9 @@ use App\Domain\Entity\Position\DenchuPosition;
 use App\Domain\Entity\Position\DenshinPosition;
 use App\Domain\Entity\Position\OtherPosition;
 use App\Domain\Entity\Position\Position;
+use App\Domain\Entity\Position\PositionDetail;
 use App\Domain\ValueObject\Position\GeoHash;
 use App\Domain\ValueObject\Position\PositionType;
-use App\Infrastructure\Model\PositionModel;
 use Illuminate\Support\Facades\DB;
 
 class PositionRepository implements PositionRepositoryInterface
@@ -22,22 +22,80 @@ class PositionRepository implements PositionRepositoryInterface
      */
     public function savePosition(Position $position): Position
     {
-        switch ($position->type) {
-            case PositionType::DENSHIN:
-                /** @var DenshinPosition $position */
-                return PositionModel::saveDenshinPosition($position);
-            case PositionType::DENCHU:
-                /** @var DenchuPosition $position */
-                return PositionModel::saveDenchuPosition($position);
-            case PositionType::BUILDING:
-                /** @var BuildingPosition $position */
-                return PositionModel::saveBuildingPosition($position);
-            case PositionType::OTHER:
-                /** @var OtherPosition $position */
-                return PositionModel::saveOtherPosition($position);
-            default:
-                throw new \ValueError("地点種別が不明です。");
+        foreach ($position->getPositionDetails() as $positionDetail) {
+            switch ($positionDetail->type) {
+                case PositionType::DENSHIN:
+                    /** @var DenshinPosition $positionDetail */
+                    $this->saveDenshinPosition($positionDetail);
+                    break;
+                case PositionType::DENCHU:
+                    /** @var DenchuPosition $positionDetail */
+                    $this->saveDenchuPosition($positionDetail);
+                    break;
+                case PositionType::BUILDING:
+                    /** @var BuildingPosition $positionDetail */
+                    $this->saveBuildingPosition($positionDetail);
+                    break;
+                case PositionType::OTHER:
+                    /** @var OtherPosition $positionDetail */
+                    $this->saveOtherPosition($positionDetail);
+                    break;
+            }
         }
+        return $position;
+    }
+
+    public function saveDenchuPosition(DenchuPosition $position): PositionDetail
+    {
+        DB::table(PositionRepository::TABLE_NAME)->insert([
+            'id' => $position->id->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
+            'line' => $position->lineName->value,
+            'number' => $position->lineNumber->value,
+            'note' => $position->positionNote->value,
+            'created_at' => $position->createdAt->getAsFormat(),
+        ]);
+        return $position;
+    }
+
+    public function saveDenshinPosition(DenshinPosition $position): PositionDetail
+    {
+        DB::table(PositionRepository::TABLE_NAME)->insert([
+            'id' => $position->id->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
+            'line' => $position->lineName->value,
+            'number' => $position->lineNumber->value,
+            'note' => $position->positionNote->value,
+            'created_at' => $position->createdAt->getAsFormat(),
+        ]);
+        return $position;
+    }
+
+    public function saveBuildingPosition(BuildingPosition $position): PositionDetail
+    {
+        DB::table(PositionRepository::TABLE_NAME)->insert([
+            'id' => $position->id->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
+            'name' => $position->buildingName->value,
+            'note' => $position->positionNote->value,
+            'created_at' => $position->createdAt->getAsFormat(),
+        ]);
+        return $position;
+    }
+
+    public function saveOtherPosition(OtherPosition $position): PositionDetail
+    {
+        DB::table(PositionRepository::TABLE_NAME)->insert([
+            'id' => $position->id->value,
+            'geohash' => $position->geoHash->value,
+            'type' => $position->type->value,
+            'note' => $position->positionNote->value,
+            'created_at' => $position->createdAt->getAsFormat(),
+        ]);
+        return $position;
     }
 
     /**
@@ -46,31 +104,55 @@ class PositionRepository implements PositionRepositoryInterface
      */
     public function find(GeoHash $geoHash): Position
     {
-        /** @var \stdClass $data */
-        $data = DB::table(self::TABLE_NAME)
-                  ->select(['geohash', 'type', 'line', 'number', 'name', 'note'])
-                  ->where('geohash', '=', $geoHash->value)
-                  ->first();
-        return PositionModel::makeFromDB(
-            geoHash: $data->geohash,
-            positionType: $data->type, lineName: $data->line, lineNumber: $data->number,
-            buildingName: $data->name, positionNote: $data->note
-        );
+        $position = new Position($geoHash);
+
+        $position_details = DB::table(self::TABLE_NAME)
+                              ->select(['id', 'type', 'line', 'number', 'name', 'note'])
+                              ->where('geohash', '=', $position->geoHash->value)
+                              ->get();
+
+        /** @var \stdClass $position_detail */
+        foreach ($position_details as $position_detail) {
+            $position->addPositionDetail(
+                PositionDetail::createPositionDetailFromString(
+                    positionId: $position_detail->id,
+                    geoHash: $position->geoHash,
+                    positionType: $position_detail->type,
+                    lineName: $position_detail->line,
+                    lineNumber: $position_detail->number,
+                    buildingName: $position_detail->name,
+                    positionNote: $position_detail->note
+                )
+            );
+        }
+
+        return $position;
     }
 
     public function findAll(): array
     {
+        /** @var array<string,Position> $positions */
         $positions = [];
-        $data = DB::table(self::TABLE_NAME)
-                  ->select(['geohash', 'type', 'line', 'number', 'name', 'note'])
-                  ->get();
-        /** @var \stdClass $datum */
-        foreach ($data as $datum) {
-            $positions[] = PositionModel::makeFromDB(
-                geoHash: $datum->geohash,
-                positionType: $datum->type, lineName: $datum->line, lineNumber: $datum->number,
-                buildingName: $datum->name, positionNote: $datum->note
+        $position_details = DB::table(self::TABLE_NAME)
+                              ->select(['id', 'geohash', 'type', 'line', 'number', 'name', 'note'])
+                              ->get();
+        /** @var \stdClass $position_detail */
+        foreach ($position_details as $position_detail) {
+            $detail = PositionDetail::createPositionDetailFromString(
+                positionId: $position_detail->id,
+                geoHash: $position_detail->geohash,
+                positionType: $position_detail->type,
+                lineName: $position_detail->line,
+                lineNumber: $position_detail->number,
+                buildingName: $position_detail->name,
+                positionNote: $position_detail->note
             );
+
+            if (isset($positions[$detail->geoHash->value])) {
+                $positions[$detail->geoHash->value]->addPositionDetail($detail);
+            } else {
+                $positions[$detail->geoHash->value] = new Position($detail->geoHash, [$detail]);
+            }
         }
 
         return $positions;
@@ -80,5 +162,4 @@ class PositionRepository implements PositionRepositoryInterface
     {
         DB::table(self::TABLE_NAME)->where('geoHash', '=', $geoHash->value)->delete();
     }
-
 }

@@ -9,7 +9,7 @@ use App\Domain\ValueObject\Uuid;
 /**
  * 地点IDはUUIDv6
  */
-class PositionId extends BaseValueObject
+final class PositionDetailId extends BaseValueObject
 {
     protected static string $name = "地点ID";
 
@@ -23,4 +23,14 @@ class PositionId extends BaseValueObject
         return [new UuidRule()];
     }
 
+    public static function generate(): self
+    {
+        return new self(Uuid::generate());
+    }
+
+    public static function fromString(string $vale): self
+    {
+        $uuid = new Uuid($vale);
+        return new self($uuid);
+    }
 }

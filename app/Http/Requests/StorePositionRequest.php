@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Domain\Entity\Image\ImagePath;
+use App\Domain\Entity\Image\Image;
 use App\Domain\Entity\Position\Position;
+use App\Domain\Entity\Position\PositionDetail;
 use App\Domain\Rules\PositionRule;
 use App\Domain\ValueObject\Position\PositionType;
 use App\Exceptions\ValidatorInvalidArgumentException;
@@ -36,11 +37,13 @@ class StorePositionRequest extends FormRequest
     #[ArrayShape([
         'lat' => "string[]",
         'long' => "string[]",
-        'type' => "string[]",
-        'line' => "Rule[]",
-        'number' => "Rule[]",
-        'name' => "Rule[]",
-        'note' => "Rule[]",
+        'details' => [
+            'type' => "string[]",
+            'line' => "Rule[]",
+            'number' => "Rule[]",
+            'name' => "Rule[]",
+            'note' => "Rule[]",
+        ],
     ])] public function rules(): array
     {
         $type = PositionType::tryFrom($this->request->get('type'));
@@ -53,21 +56,23 @@ class StorePositionRequest extends FormRequest
                 'required',
                 PositionRule::longRule(),
             ],
-            'type' => [
-                'required',
-                PositionRule::typeRule(),
-            ],
-            'line' => [
-                PositionRule::nameRule($type),
-            ],
-            'number' => [
-                PositionRule::numberRule($type),
-            ],
-            'name' => [
-                PositionRule::buildingRule($type),
-            ],
-            'note' => [
-                PositionRule::noteRule($type),
+            'details' => [
+                'type' => [
+                    'required',
+                    PositionRule::typeRule(),
+                ],
+                'line' => [
+                    PositionRule::nameRule($type),
+                ],
+                'number' => [
+                    PositionRule::numberRule($type),
+                ],
+                'name' => [
+                    PositionRule::buildingRule($type),
+                ],
+                'note' => [
+                    PositionRule::noteRule($type),
+                ],
             ],
         ];
     }
@@ -79,20 +84,25 @@ class StorePositionRequest extends FormRequest
     public function makePosition(): Position
     {
         $values = $this->validated();
-        return Position::createPosition(
-            latitude: $values["lat"],
-            longitude: $values['long'],
-            positionType: $values['type'],
-            lineName: $values['line'] ?? null,
-            lineNumber: $values['number'] ?? null,
-            buildingName: $values['name'] ?? null,
-            positionNote: $values['note']
-        );
+        $position = Position::fromLatLng(latitude: $values["lat"], longitude: $values["long"]);
+        foreach ($values["details"] as $detail) {
+            $positionDetail = PositionDetail::createPositionDetailFromString(
+                positionid: null,
+                geoHash: $position->geoHash,
+                positionType: $detail['type'],
+                lineName: $detail['line'] ?? null,
+                lineNumber: $detail['number'] ?? null,
+                buildingName: $detail['name'] ?? null,
+                positionNote: $detail['note']
+            );
+            $position->addPositionDetail($positionDetail);
+        }
+        return $position;
     }
 
     /**
      * @param Position $position
-     * @return Array<string,ImagePath> キーは一次保存先のtmpPath、値は保存先のImagePath
+     * @return Array<string,Image> キーは一次保存先のtmpPath、値は保存先のImagePath
      * @throws \InvalidArgumentException
      */
     public function makeImages(Position $position): array
@@ -106,7 +116,7 @@ class StorePositionRequest extends FormRequest
             if ($tmpPath === false) {
                 continue;
             }
-            $images[$tmpPath] = ImagePath::createFromUploadedFile($position, $file);
+            $images[$tmpPath] = Image::createFromUploadedFile($position, $file);
         }
         return $images;
     }
