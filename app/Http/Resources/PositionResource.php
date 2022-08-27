@@ -26,8 +26,8 @@ class PositionResource extends JsonResource
         'type' => "string",
         'details' => [
             [
+                'id' => "string",
                 'note' => "string|null",
-                'imageURLs' => "array",
                 'lineNumber' => "string|null",
                 'buildingName' => "string|null",
                 'lineName' => "string|null",
@@ -51,12 +51,12 @@ class PositionResource extends JsonResource
         ];
 
         foreach ($position->getPositionDetails() as $positionDetail) {
-            $detail = [];
+            $detail = [
+                "id" => $positionDetail->positionId->value->value,
+                "note" => $positionDetail->positionNote->value,
+            ];
             switch (true) {
                 case $positionDetail instanceof DenchuPosition:
-                    $detail['lineName'] = $positionDetail->lineName->value;
-                    $detail['lineNumber'] = $positionDetail->lineNumber->value;
-                    break;
                 case $positionDetail instanceof DenshinPosition:
                     $detail['lineName'] = $positionDetail->lineName->value;
                     $detail['lineNumber'] = $positionDetail->lineNumber->value;
