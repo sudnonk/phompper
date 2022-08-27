@@ -14,20 +14,15 @@ use App\Domain\ValueObject\Uuid;
 
 abstract class PositionDetail
 {
-    public readonly PositionDetailId $id;
-    public readonly GeoHash $geoHash;
-    public readonly PositionType $type;
     public readonly DateTimeImmutable $createdAt;
 
     protected function __construct(
-        PositionDetailId $positionId,
-        GeoHash $geoHash,
-        PositionNote $positionNote,
-        PositionType $positionType,
+        public readonly PositionDetailId $positionId,
+        public readonly GeoHash $geoHash,
+        public readonly PositionNote $positionNote,
+        public readonly PositionType $positionType,
         DateTimeImmutable $createdAt = null
     ) {
-        $this->id = $positionId;
-        $this->type = $positionType;
         $this->createdAt = $createdAt ?? DateTimeImmutable::now();
     }
 
@@ -64,72 +59,31 @@ abstract class PositionDetail
         $positionNote = new PositionNote($positionNote);
         $positionType = PositionType::tryFromString($positionType);
         return match ($positionType) {
-            PositionType::DENCHU => self::denchuFromString(id: $positionId, geoHash: $geoHash, line: $lineName,
-                number: $lineNumber, note: $positionNote),
-            PositionType::DENSHIN => self::denshinFromString(id: $positionId, geoHash: $geoHash, line: $lineName,
-                number: $lineNumber, note: $positionNote),
-            PositionType::BUILDING => self::buildingFromString(id: $positionId, geoHash: $geoHash, name: $buildingName,
-                note: $positionNote),
-            PositionType::OTHER => self::otherFromString(id: $positionId, geoHash: $geoHash, note: $positionNote),
+            PositionType::DENCHU => new DenchuPosition(
+                $positionId,
+                $geoHash,
+                new LineName($lineName),
+                new LineNumber($lineNumber),
+                $positionNote
+            ),
+            PositionType::DENSHIN => new DenshinPosition(
+                $positionId,
+                $geoHash,
+                new LineName($lineName),
+                new LineNumber($lineNumber),
+                $positionNote
+            ),
+            PositionType::BUILDING => new BuildingPosition(
+                $positionId,
+                $geoHash,
+                new BuildingName($buildingName),
+                $positionNote
+            ),
+            PositionType::OTHER => new OtherPosition(
+                $positionId,
+                $geoHash,
+                $positionNote
+            ),
         };
     }
-
-    protected static function denchuFromString(
-        PositionDetailId $id,
-        GeoHash $geoHash,
-        string $line,
-        string $number,
-        PositionNote $note
-    ): DenchuPosition {
-        return new DenchuPosition(
-            $id,
-            $geoHash,
-            new LineName($line),
-            new LineNumber($number),
-            $note
-        );
-    }
-
-    protected static function denshinFromString(
-        PositionDetailId $id,
-        GeoHash $geoHash,
-        string $line,
-        string $number,
-        PositionNote $note
-    ): DenshinPosition {
-        return new DenshinPosition(
-            $id,
-            $geoHash,
-            new LineName($line),
-            new LineNumber($number),
-            $note
-        );
-    }
-
-    protected static function buildingFromString(
-        PositionDetailId $id,
-        GeoHash $geoHash,
-        string $name,
-        PositionNote $note
-    ): BuildingPosition {
-        return new BuildingPosition(
-            $id,
-            $geoHash,
-            new BuildingName($name),
-            $note
-        );
-    }
-
-    protected static function otherFromString(
-        PositionDetailId $id,
-        GeoHash $geoHash,
-        PositionNote $note
-    ): OtherPosition {
-        return new OtherPosition(
-            $id,
-            $geoHash,
-            $note
-        );
-    }
-
 }

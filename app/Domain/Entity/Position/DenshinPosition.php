@@ -12,11 +12,11 @@ use App\Domain\ValueObject\Position\PositionType;
 class DenshinPosition extends PositionDetail
 {
     public function __construct(
-        public readonly PositionDetailId $id,
-        public readonly GeoHash $geoHash,
+        PositionDetailId $id,
+        GeoHash $geoHash,
         public readonly LineName $lineName,
         public readonly LineNumber $lineNumber,
-        public readonly PositionNote $positionNote
+        PositionNote $positionNote
     ) {
         parent::__construct($id, $geoHash, $positionNote, PositionType::DENSHIN);
     }
