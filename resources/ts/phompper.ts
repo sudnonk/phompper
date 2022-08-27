@@ -20,6 +20,7 @@ interface PositionObj {
     type: string,
     details: [
         {
+            id: string,
             note: string | null,
             lineNumber: string | null,
             lineName: string | null,
@@ -81,7 +82,7 @@ export default class Phompper {
                     content_by_type += '<li>' + detail.buildingName + '</li>';
                     break;
             }
-            content_by_type += '<li>' + detail.note + '</li>';
+            content_by_type += '<li>（' + detail.note + '）</li>';
         })
 
 
