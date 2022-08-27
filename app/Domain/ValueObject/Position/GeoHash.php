@@ -43,7 +43,7 @@ final class GeoHash extends BaseValueObject
 
     /**
      * @param string $geoHashLike
-     * @return array<Latitude,Longitude>
+     * @return array[Latitude,Longitude]
      */
     public static function parse(string $geoHashLike): array
     {
