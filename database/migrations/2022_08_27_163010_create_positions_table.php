@@ -13,19 +13,22 @@ class CreatePositionsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('positions');
         Schema::create('positions', function (Blueprint $table) {
+            //UUID: この地点のID
+            $table->string('id')->primary();
             //GeoHASH: 緯度と経度を24文字ぐらいで表せるもの
-            $table->string('geohash')->primary();
+            $table->string('geohash')->nullable(false);
             //種別: その地点の種別
             $table->string('type')->nullable(false);
             //支線名（電信柱・電柱の場合）
-            $table->string('line',255)->nullable(true);
+            $table->string('line', 255)->nullable(true);
             //番号（電信柱・電柱の場合）
-            $table->string('number',255)->nullable(true);
+            $table->string('number', 255)->nullable(true);
             //ビル名（通信ビルの場合）
-            $table->string('name',255)->nullable(true);
+            $table->string('name', 255)->nullable(true);
             //備考（メモ）
-            $table->string('note',1024);
+            $table->string('note', 1024);
             $table->timestamps();
         });
     }

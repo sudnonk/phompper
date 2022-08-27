@@ -4,10 +4,18 @@ namespace App\Http\Resources;
 
 use App\Domain\Entity\Position\Position;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
 
 class PositionListResource extends JsonResource
 {
-    public function toArray($request): array
+    #[ArrayShape([
+        [
+            'geoHash' => "string",
+            'latitude' => "string",
+            'longitude' => "string",
+            'type' => "string",
+        ],
+    ])] public function toArray($request): array
     {
         /** @var Position[] $positions */
         $positions = $this->resource;
@@ -15,12 +23,11 @@ class PositionListResource extends JsonResource
         $data = [];
         foreach ($positions as $position) {
             $datum = [
-                'geoHash'=>$position->geoHash->value,
+                'geoHash' => $position->geoHash->value,
                 'latitude' => $position->geoHash->latitude->value,
                 'longitude' => $position->geoHash->longitude->value,
-                'type' => $position->type->value,
+                'type' => $position->getPositionType()->value,
             ];
-
             $data[] = $datum;
         }
 

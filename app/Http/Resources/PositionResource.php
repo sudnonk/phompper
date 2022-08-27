@@ -24,11 +24,18 @@ class PositionResource extends JsonResource
         'latitude' => "string",
         'longitude' => "string",
         'type' => "string",
-        'note' => "string|null",
-        'imageURLs' => "array",
-        'lineNumber' => "string|null",
-        'buildingName' => "string|null",
-        'lineName' => "string|null",
+        'details' => [
+            [
+                'note' => "string|null",
+                'imageURLs' => "array",
+                'lineNumber' => "string|null",
+                'buildingName' => "string|null",
+                'lineName' => "string|null",
+            ],
+        ],
+        'imageURLs' => [
+            "string",
+        ],
     ])] public function toArray($request): array
     {
         /** @var Position $position */
@@ -39,23 +46,28 @@ class PositionResource extends JsonResource
             'geoHash' => $position->geoHash->value,
             'latitude' => $position->geoHash->latitude->value,
             'longitude' => $position->geoHash->longitude->value,
-            'type' => $position->type->value,
-            'note' => $position->positionNote->value,
+            'type' => $position->getPositionType()->value,
+            'details' => [],
         ];
-        switch (true) {
-            case $position instanceof DenchuPosition:
-                $data['lineName'] = $position->lineName->value;
-                $data['lineNumber'] = $position->lineNumber->value;
-                break;
-            case $position instanceof DenshinPosition:
-                $data['lineName'] = $position->lineName->value;
-                $data['lineNumber'] = $position->lineNumber->value;
-                break;
-            case $position instanceof BuildingPosition:
-                $data['buildingName'] = $position->buildingName->value;
-                break;
-            case $position instanceof OtherPosition:
-                break;
+
+        foreach ($position->getPositionDetails() as $positionDetail) {
+            $detail = [];
+            switch (true) {
+                case $positionDetail instanceof DenchuPosition:
+                    $detail['lineName'] = $positionDetail->lineName->value;
+                    $detail['lineNumber'] = $positionDetail->lineNumber->value;
+                    break;
+                case $positionDetail instanceof DenshinPosition:
+                    $detail['lineName'] = $positionDetail->lineName->value;
+                    $detail['lineNumber'] = $positionDetail->lineNumber->value;
+                    break;
+                case $positionDetail instanceof BuildingPosition:
+                    $detail['buildingName'] = $positionDetail->buildingName->value;
+                    break;
+                case $positionDetail instanceof OtherPosition:
+                    break;
+            }
+            $data["details"][] = $detail;
         }
 
         $data['imageURLs'] = [];

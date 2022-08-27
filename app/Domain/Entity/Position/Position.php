@@ -5,6 +5,7 @@ namespace App\Domain\Entity\Position;
 use App\Domain\ValueObject\Position\GeoHash;
 use App\Domain\ValueObject\Position\Latitude;
 use App\Domain\ValueObject\Position\Longitude;
+use App\Domain\ValueObject\Position\PositionType;
 
 final class Position
 {
@@ -59,5 +60,18 @@ final class Position
     public function getPositionDetails(): array
     {
         return $this->positionDetails;
+    }
+
+    public function getPositionType(): PositionType
+    {
+        /*
+         * positionDetails配列で一番上にあるPositionDetailsのTypeが使用されているが、
+         * 複数存在する場合は実質的に、一つの電柱に複数のLineNameがある場合なので、特に問題なさそう
+         */
+        if (isset($this->positionDetails[0])) {
+            return $this->positionDetails[0]->type;
+        } else {
+            return PositionType::OTHER;
+        }
     }
 }
