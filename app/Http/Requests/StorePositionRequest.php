@@ -79,7 +79,7 @@ class StorePositionRequest extends FormRequest
     public function makePosition(): Position
     {
         $values = $this->validated();
-        return Position::fromStrings(
+        return Position::createPosition(
             latitude: $values["lat"],
             longitude: $values['long'],
             positionType: $values['type'],
